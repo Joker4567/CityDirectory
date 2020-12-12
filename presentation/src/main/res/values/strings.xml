@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tab_home">Список организаций</string>
+    <string name="toast_error">Ошибка соединения с сервером</string>
+    <string name="retry">Повторить</string>
+</resources>
