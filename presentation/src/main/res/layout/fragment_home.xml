@@ -22,12 +22,12 @@
             android:layout_height="0px"
             android:layout_weight="1">
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvWorks"
+                android:id="@+id/rvOrg"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:clipToPadding="false"
-                android:padding="@dimen/default_margin_6" />
+                android:padding="@dimen/default_margin_6"/>
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/default_margin_6"
+    android:background="@color/colorLightGray"
+    android:backgroundTint="@color/colorLightGray"
+    android:backgroundTintMode="multiply"
+    android:foreground="?attr/selectableItemBackgroundBorderless"
+    android:padding="5dp"
+    app:cardBackgroundColor="@color/colorLightGray"
+    app:cardCornerRadius="@dimen/card_corner_radius"
+    app:cardElevation="@dimen/card_elevation_2"
+    app:cardMaxElevation="3dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:background="@color/colorLightGray"
+        android:backgroundTint="@color/colorLightGray"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvDescriptionFeedBack"
+            style="@style/Text.14"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:textAlignment="viewStart"
+            app:layout_constraintBottom_toBottomOf="@+id/imageViewFeedBack"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/imageViewFeedBack"
+            app:layout_constraintTop_toTopOf="@+id/imageViewFeedBack"
+            tools:text="Text Text Text Text TextText Text Text Text Text Text TextText Text Text Text Text Text TextText Text Text Text Text Text TextText Text Text Text Text Text TextText Text Text Text Text Text TextText Text Text Text Text Text TextText Text Text Text Text Text TextText Text" />
+
+        <ImageView
+            android:id="@+id/imageViewFeedBack"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/tvDescriptionFeedBack"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_baseline_thumb_down_alt_24" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.cardview.widget.CardView>

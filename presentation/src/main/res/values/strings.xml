@@ -3,4 +3,5 @@
     <string name="tab_home">Список организаций</string>
     <string name="toast_error">Ошибка соединения с сервером</string>
     <string name="retry">Повторить</string>
+    <string name="fragment_feedback_title">Отзывы</string>
 </resources>

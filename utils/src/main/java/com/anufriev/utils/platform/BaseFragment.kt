@@ -27,7 +27,7 @@ abstract class BaseFragment(@LayoutRes layoutRes: Int) : Fragment(layoutRes) {
 
     open val setToolbar = false
     open val setDisplayHomeAsUpEnabled = true
-    open val toolbarTitle: String = ""
+    open var toolbarTitle: String = ""
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

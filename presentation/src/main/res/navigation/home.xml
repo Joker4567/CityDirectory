@@ -10,7 +10,19 @@
             android:id="@+id/homeFragment"
             android:name="com.anufriev.presentation.home.HomeFragment"
             android:label="HomeFragment"
-            tools:layout="@layout/fragment_home" />
+            tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_feedBackFragment"
+            app:destination="@id/feedBackFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/feedBackFragment"
+        android:name="com.anufriev.presentation.feedBack.FeedBackFragment"
+        android:label="FeedBackFragment" >
+        <argument
+            android:name="org"
+            app:argType="com.anufriev.data.db.entities.Organization" />
+    </fragment>
 
 
 </navigation>

@@ -30,49 +30,14 @@
             <LayoutPositions>
               <option name="myPositions">
                 <map>
-                  <entry key="detailWorkFragment">
+                  <entry key="feedBackFragment">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="316" />
-                            <option name="y" value="11" />
+                            <option name="x" value="292" />
+                            <option name="y" value="13" />
                           </Point>
-                        </option>
-                        <option name="myPositions">
-                          <map>
-                            <entry key="action_detailWorkFragment_to_geoLocationFragment">
-                              <value>
-                                <LayoutPositions />
-                              </value>
-                            </entry>
-                            <entry key="action_detailWorkFragment_to_homeFragment">
-                              <value>
-                                <LayoutPositions />
-                              </value>
-                            </entry>
-                          </map>
-                        </option>
-                      </LayoutPositions>
-                    </value>
-                  </entry>
-                  <entry key="geoLocationFragment">
-                    <value>
-                      <LayoutPositions>
-                        <option name="myPosition">
-                          <Point>
-                            <option name="x" value="603" />
-                            <option name="y" value="7" />
-                          </Point>
-                        </option>
-                        <option name="myPositions">
-                          <map>
-                            <entry key="action_geoLocationFragment_to_detailWorkFragment">
-                              <value>
-                                <LayoutPositions />
-                              </value>
-                            </entry>
-                          </map>
                         </option>
                       </LayoutPositions>
                     </value>
@@ -84,27 +49,6 @@
                           <Point>
                             <option name="x" value="12" />
                             <option name="y" value="12" />
-                          </Point>
-                        </option>
-                        <option name="myPositions">
-                          <map>
-                            <entry key="action_homeFragment_to_detailWorkFragment">
-                              <value>
-                                <LayoutPositions />
-                              </value>
-                            </entry>
-                          </map>
-                        </option>
-                      </LayoutPositions>
-                    </value>
-                  </entry>
-                  <entry key="photoGeoFragment">
-                    <value>
-                      <LayoutPositions>
-                        <option name="myPosition">
-                          <Point>
-                            <option name="x" value="919" />
-                            <option name="y" value="-2" />
                           </Point>
                         </option>
                       </LayoutPositions>

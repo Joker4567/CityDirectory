@@ -27,7 +27,7 @@ class SplashActivity : BaseActivity(R.layout.activity_splash) {
     override fun initInterface(savedInstanceState: Bundle?) {
         observeEvent(screenViewModel.eventLoader) {
             if (it is State.Loaded)
-                Handler().postDelayed({ startApp() }, 400)
+                Handler().postDelayed({ startApp() }, 50)
         }
     }
 
