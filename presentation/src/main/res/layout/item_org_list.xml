@@ -137,7 +137,6 @@
                     android:id="@+id/imgViewFeedBack"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:tint="#000000"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"

@@ -13,11 +13,9 @@ fun itemFeedBackList() =
             containerView.tvDescriptionFeedBack.text = item.description
             if(item.state) {
                 containerView.imageViewFeedBack.setImageResource(R.drawable.ic_round_thumb_up_alt_24)
-                containerView.imageViewFeedBack.setBackgroundColor(Color.GREEN)
             }
             else {
                 containerView.imageViewFeedBack.setImageResource(R.drawable.ic_baseline_thumb_down_alt_24)
-                containerView.imageViewFeedBack.setBackgroundColor(Color.RED)
             }
         }
     }

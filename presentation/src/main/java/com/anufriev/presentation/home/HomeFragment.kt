@@ -1,13 +1,19 @@
 package com.anufriev.presentation.home
 
+import android.Manifest
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.anufriev.data.db.entities.Organization
 import com.anufriev.presentation.R
 import com.anufriev.presentation.delegates.itemOrgList
+import com.anufriev.presentation.resultCall.ResultCallFragment
 import com.anufriev.utils.ext.gone
 import com.anufriev.utils.ext.observeLifeCycle
 import com.anufriev.utils.ext.setData
@@ -37,9 +43,10 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
 
     private val orgListAdapter by lazy {
         ListDelegationAdapter(
-            itemOrgList ({
+            itemOrgList({
                 //Вызываем организацию по текущему телефону
-            },{
+                callPhone(it)
+            }, {
                 //Открываем новый фрагмент для просмотра отзывов
                 router.routeToDetail(it)
             })
@@ -48,7 +55,12 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
 
     private fun bind(){
         toolbar.gone()
-        pullToRefresh_home.setProgressBackgroundColorSchemeColor(ContextCompat.getColor(requireContext(), R.color.colorPrimary))
+        pullToRefresh_home.setProgressBackgroundColorSchemeColor(
+            ContextCompat.getColor(
+                requireContext(),
+                R.color.colorPrimary
+            )
+        )
         pullToRefresh_home.setColorSchemeColors(Color.WHITE)
         pullToRefresh_home.setOnRefreshListener {
             toast("Информация обновлена")
@@ -70,5 +82,58 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
         works?.let {
             orgListAdapter.setData(works)
         }
+    }
+
+    private fun callPhone(phone: String){
+        val isCallPhonePermissionGranted = ActivityCompat.checkSelfPermission(
+            requireContext(), Manifest.permission.CALL_PHONE
+        ) == PackageManager.PERMISSION_GRANTED
+        if (isCallPhonePermissionGranted) {
+            val intent = Intent(Intent.ACTION_CALL)
+            intent.data = Uri.parse("tel:$phone")
+            startActivityForResult(intent, RESULT_CODE_PHONE)
+        } else {
+            requestPermissions(
+                arrayOf(
+                    Manifest.permission.CALL_PHONE
+                ),
+                PERMISSION_REQUEST_CODE_PHONE
+            )
+        }
+
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode == RESULT_CODE_PHONE){
+            //вызываем bottomSheet для оценки вызова
+            ResultCallFragment().show(supportFragmentManager, "tag")
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == PERMISSION_REQUEST_CODE_PHONE) {
+            if (grantResults.all { it == PackageManager.PERMISSION_GRANTED }) {
+                toast("Нажмите [Заказать]")
+            } else {
+                val needRationale = ActivityCompat.shouldShowRequestPermissionRationale(
+                    requireActivity(),
+                    Manifest.permission.CALL_PHONE
+                )
+                if (needRationale) {
+                    toast("Для осуществления звонка, необходимо разрешение")
+                }
+            }
+        }
+    }
+
+    companion object {
+        private const val RESULT_CODE_PHONE = 4213
+        private const val PERMISSION_REQUEST_CODE_PHONE = 4313
     }
 }
