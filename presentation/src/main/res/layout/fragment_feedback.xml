@@ -38,11 +38,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:text="Добавить"
+        android:text="Похвалить"
+        app:backgroundTint="#4CAF50"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/switchFeedBackStatus" />
+        app:layout_constraintStart_toEndOf="@+id/btAddFeedBack2" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btAddFeedBack2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="Негатив"
+        app:backgroundTint="#F44336"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btAddFeedBack"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/editTextTextMultiLine"
@@ -72,16 +85,5 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/editTextTextMultiLine"
         app:layout_constraintStart_toStartOf="parent" />
-
-    <Switch
-        android:id="@+id/switchFeedBackStatus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Негатив"
-        app:layout_constraintBottom_toBottomOf="@+id/btAddFeedBack"
-        app:layout_constraintEnd_toStartOf="@+id/btAddFeedBack"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/btAddFeedBack" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
