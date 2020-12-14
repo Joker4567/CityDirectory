@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.anufriev.presentation.R
+import com.anufriev.utils.common.KCustomToast
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.android.synthetic.main.dialog_result_call.*
 import org.jetbrains.anko.support.v4.toast
@@ -23,11 +24,20 @@ class ResultCallFragment : BottomSheetDialogFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         imageViewPositive.setOnClickListener {
-            toast("Спасибо, за отзыв. +1 к рейтингу")
+            KCustomToast.infoToast(
+                requireActivity(),
+                "Отлично! Рейтинг организации увеличен.",
+                KCustomToast.GRAVITY_BOTTOM
+            )
             this.onDestroyView()
+            requireActivity().finish()
         }
         imageViewNegative.setOnClickListener {
-            toast("Попробуйте позвонить в другую организацию. -1 к рейтингу")
+            KCustomToast.infoToast(
+                requireActivity(),
+                "Рейтинг организации занижен! Звоним в другую.",
+                KCustomToast.GRAVITY_BOTTOM
+            )
             this.onDestroyView()
         }
     }

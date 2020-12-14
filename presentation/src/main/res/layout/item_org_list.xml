@@ -17,10 +17,10 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
         android:background="@color/colorLightGray"
         android:backgroundTint="@color/colorLightGray"
-        android:layout_gravity="bottom|center_horizontal"
         android:orientation="vertical">
 
         <TextView
@@ -36,35 +36,19 @@
             android:textAlignment="viewStart"
             android:textSize="17sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/cardViewRate"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Abrikos Group" />
-
-        <TextView
-            android:id="@+id/tvDescription"
-            style="@style/Text.14"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvCompany"
-            tools:text="IT-компания ∙ Информационная безопасность ∙ Программное обеспечение" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardViewCall"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
             android:background="#C957C95C"
             android:backgroundTint="#C957C95C"
-            android:padding="5dp"
-            app:cardCornerRadius="10dp"
-            app:cardElevation="5dp"
+            app:cardCornerRadius="6dp"
             app:layout_constraintBottom_toBottomOf="@+id/cardViewOtziv"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/cardViewOtziv">
@@ -101,18 +85,59 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/cardViewInfo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:background="@color/colorBackground"
+            android:backgroundTint="@color/colorBackground"
+            app:cardCornerRadius="6dp"
+            app:layout_constraintBottom_toBottomOf="@+id/cardViewOtziv"
+            app:layout_constraintStart_toEndOf="@+id/cardViewRate"
+            app:layout_constraintTop_toTopOf="@+id/cardViewOtziv">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/imageViewInfo"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_baseline_info_24" />
+
+                <TextView
+                    android:id="@+id/tvInfo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="4dp"
+                    android:layout_marginBottom="4dp"
+                    android:text="Справка"
+                    android:textColor="@color/colorRegularText"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/imageViewInfo" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
             android:id="@+id/cardViewOtziv"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
             android:layout_marginBottom="8dp"
-            android:padding="5dp"
-            app:cardCornerRadius="10dp"
-            app:cardElevation="5dp"
+            app:cardCornerRadius="6dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvDescription">
+            app:layout_constraintTop_toBottomOf="@+id/tvCompany">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -140,7 +165,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_round_thumb_up_alt_24" />
+                    app:srcCompat="@drawable/ic_up_feedback" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -150,13 +175,12 @@
             android:id="@+id/cardViewRate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginStart="16dp"
             app:cardBackgroundColor="#3F51B5"
-            app:cardCornerRadius="4dp"
-            app:layout_constraintBottom_toBottomOf="@+id/tvCompany"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/tvCompany">
+            app:cardCornerRadius="6dp"
+            app:layout_constraintBottom_toBottomOf="@+id/cardViewOtziv"
+            app:layout_constraintStart_toEndOf="@+id/cardViewOtziv"
+            app:layout_constraintTop_toTopOf="@+id/cardViewOtziv">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="wrap_content"
@@ -170,7 +194,6 @@
                     android:layout_margin="2dp"
                     android:text="20+"
                     android:textColor="@color/colorWhite"
-                    android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

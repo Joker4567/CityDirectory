@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.anufriev.data.db.entities.FeedBack
 import com.anufriev.presentation.R
 import com.anufriev.presentation.delegates.itemFeedBackList
+import com.anufriev.utils.common.KCustomToast
 import com.anufriev.utils.ext.observeLifeCycle
 import com.anufriev.utils.ext.setData
 import com.anufriev.utils.platform.BaseFragment
@@ -44,7 +45,11 @@ class FeedBackFragment : BaseFragment(R.layout.fragment_feedback) {
             router.backOrg()
         }
         btAddFeedBack.setOnClickListener {
-            toast("Отзыв успешно добавлен")
+            KCustomToast.infoToast(
+                requireActivity(),
+                "Отзыв успешно добавлен",
+                KCustomToast.GRAVITY_BOTTOM
+            )
         }
         observeLifeCycle(screenViewModel.feedBacks, ::handleWorks)
     }

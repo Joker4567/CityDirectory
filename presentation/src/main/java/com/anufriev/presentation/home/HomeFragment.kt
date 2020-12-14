@@ -14,6 +14,7 @@ import com.anufriev.data.db.entities.Organization
 import com.anufriev.presentation.R
 import com.anufriev.presentation.delegates.itemOrgList
 import com.anufriev.presentation.resultCall.ResultCallFragment
+import com.anufriev.utils.common.KCustomToast
 import com.anufriev.utils.ext.gone
 import com.anufriev.utils.ext.observeLifeCycle
 import com.anufriev.utils.ext.setData
@@ -49,6 +50,13 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
             }, {
                 //Открываем новый фрагмент для просмотра отзывов
                 router.routeToDetail(it)
+            }, {
+                //Вывод описания в customToast
+                KCustomToast.infoToast(
+                    requireActivity(),
+                    "Описание: $it",
+                    KCustomToast.GRAVITY_BOTTOM
+                )
             })
         )
     }
@@ -63,7 +71,11 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
         )
         pullToRefresh_home.setColorSchemeColors(Color.WHITE)
         pullToRefresh_home.setOnRefreshListener {
-            toast("Информация обновлена")
+            KCustomToast.infoToast(
+                requireActivity(),
+                "Информация обновлена",
+                KCustomToast.GRAVITY_BOTTOM
+            )
             pullToRefresh_home.isRefreshing = false
         }
         observeLifeCycle(screenViewModel.works, ::handleWorks)
@@ -119,14 +131,22 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == PERMISSION_REQUEST_CODE_PHONE) {
             if (grantResults.all { it == PackageManager.PERMISSION_GRANTED }) {
-                toast("Нажмите [Заказать]")
+                KCustomToast.infoToast(
+                    requireActivity(),
+                    "Нажмите [Заказать]",
+                    KCustomToast.GRAVITY_BOTTOM
+                )
             } else {
                 val needRationale = ActivityCompat.shouldShowRequestPermissionRationale(
                     requireActivity(),
                     Manifest.permission.CALL_PHONE
                 )
                 if (needRationale) {
-                    toast("Для осуществления звонка, необходимо разрешение")
+                    KCustomToast.infoToast(
+                        requireActivity(),
+                        "Для осуществления звонка, необходимо разрешение",
+                        KCustomToast.GRAVITY_BOTTOM
+                    )
                 }
             }
         }

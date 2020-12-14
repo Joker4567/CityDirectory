@@ -5,12 +5,16 @@ import com.anufriev.presentation.R
 import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateLayoutContainer
 import kotlinx.android.synthetic.main.item_org_list.view.*
 
-fun itemOrgList(callClick: (String) -> Unit, feedBackClick: (Organization) -> Unit) =
+fun itemOrgList(callClick: (String) -> Unit, feedBackClick: (Organization) -> Unit, infoDescription: (String) -> Unit) =
     adapterDelegateLayoutContainer<Organization, Any>(R.layout.item_org_list) {
 
         //Вызов
         containerView.tvCall.setOnClickListener { callClick.invoke(item.phone) }
         containerView.imageViewCall.setOnClickListener { callClick.invoke(item.phone) }
+
+        //Info
+        containerView.imageViewInfo.setOnClickListener { infoDescription.invoke(item.description) }
+        containerView.tvInfo.setOnClickListener { infoDescription.invoke(item.description) }
 
         //Отзывы
         containerView.imgViewFeedBack.setOnClickListener { feedBackClick.invoke(item) }
@@ -19,7 +23,6 @@ fun itemOrgList(callClick: (String) -> Unit, feedBackClick: (Organization) -> Un
         bind {
             containerView.tvRating.text = "${item.rating}+"
             containerView.tvCompany.text = item.title
-            containerView.tvDescription.text = item.description
         }
     }
 

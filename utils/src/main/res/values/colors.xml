@@ -5,7 +5,7 @@
     <color name="colorPrimary">#F44336</color>
     <color name="colorPrimaryLight">#E4FB392B</color>
     <color name="colorAccent">#F18A24</color>
-    <color name="colorPaleAccent">#80F18A24</color>
+    <color name="colorPaleAccent">#C97521</color>
     <color name="colorLightHint">#9E9E9E</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorTransparent">#00FFFFFF</color>
@@ -26,6 +26,7 @@
     <color name="colorRegularText">#212121</color>
     <color name="colorPaleText">#757575</color>
     <color name="colorWhiteLightTransparent">#B3FFFFFF</color>
+    <color name="info">#9C27B0</color>
 </resources>
 
 

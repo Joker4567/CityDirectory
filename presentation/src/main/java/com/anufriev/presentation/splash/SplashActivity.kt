@@ -22,13 +22,8 @@ class SplashActivity : BaseActivity(R.layout.activity_splash) {
     override val statusBarLightMode: Boolean
         get() = false
 
-    override val screenViewModel by viewModel<SplashViewModel>()
-
     override fun initInterface(savedInstanceState: Bundle?) {
-        observeEvent(screenViewModel.eventLoader) {
-            if (it is State.Loaded)
-                Handler().postDelayed({ startApp() }, 50)
-        }
+        startApp()
     }
 
     private fun startApp() {
