@@ -51,6 +51,9 @@ class FeedBackFragment : BaseFragment(R.layout.fragment_feedback) {
                 KCustomToast.GRAVITY_BOTTOM
             )
         }
+        switchFeedBackStatus.setOnCheckedChangeListener { _, check ->
+            switchFeedBackStatus.text = if(check) "Позитив" else "Негатив"
+        }
         observeLifeCycle(screenViewModel.feedBacks, ::handleWorks)
     }
 

@@ -6,13 +6,16 @@ import android.content.pm.PackageManager
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.view.View
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.anufriev.data.db.entities.Organization
 import com.anufriev.presentation.R
 import com.anufriev.presentation.delegates.itemOrgList
+import com.anufriev.presentation.infoCompany.InfoCompanyFragment
 import com.anufriev.presentation.resultCall.ResultCallFragment
 import com.anufriev.utils.common.KCustomToast
 import com.anufriev.utils.ext.gone
@@ -22,7 +25,6 @@ import com.anufriev.utils.platform.BaseFragment
 import com.hannesdorfmann.adapterdelegates4.ListDelegationAdapter
 import jp.wasabeef.recyclerview.animators.ScaleInAnimator
 import kotlinx.android.synthetic.main.fragment_home.*
-import org.jetbrains.anko.support.v4.toast
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -52,11 +54,12 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
                 router.routeToDetail(it)
             }, {
                 //Вывод описания в customToast
-                KCustomToast.infoToast(
-                    requireActivity(),
-                    "Описание: $it",
-                    KCustomToast.GRAVITY_BOTTOM
-                )
+//                KCustomToast.infoToast(
+//                    requireActivity(),
+//                    "Описание: $it",
+//                    KCustomToast.GRAVITY_BOTTOM
+//                ).duration = Toast.LENGTH_LONG
+                InfoCompanyFragment(it.title,"Описание: ${it.description}").show(supportFragmentManager, "tag2")
             })
         )
     }

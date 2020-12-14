@@ -178,7 +178,6 @@
             android:layout_marginStart="16dp"
             app:cardBackgroundColor="#3F51B5"
             app:cardCornerRadius="6dp"
-            app:layout_constraintBottom_toBottomOf="@+id/cardViewOtziv"
             app:layout_constraintStart_toEndOf="@+id/cardViewOtziv"
             app:layout_constraintTop_toTopOf="@+id/cardViewOtziv">
 
@@ -194,7 +193,6 @@
                     android:layout_margin="2dp"
                     android:text="20+"
                     android:textColor="@color/colorWhite"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -202,6 +200,19 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/tvRate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Рейтинг"
+            android:textColor="@color/colorRegularText"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/cardViewOtziv"
+            app:layout_constraintEnd_toEndOf="@+id/cardViewRate"
+            app:layout_constraintHorizontal_bias="0.226"
+            app:layout_constraintStart_toStartOf="@+id/cardViewRate"
+            app:layout_constraintTop_toBottomOf="@+id/cardViewRate" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
