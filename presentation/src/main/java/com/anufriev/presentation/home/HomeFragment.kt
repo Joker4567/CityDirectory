@@ -57,7 +57,10 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
 //                    "Описание: $it",
 //                    KCustomToast.GRAVITY_BOTTOM
 //                ).duration = Toast.LENGTH_LONG
-                InfoCompanyFragment(it.name,"Описание: ${it.description}").show(supportFragmentManager, "tag2")
+                InfoCompanyFragment(it.name, "Описание: ${it.description}").show(
+                    supportFragmentManager,
+                    "tag2"
+                )
             })
         )
     }
@@ -98,7 +101,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
         }
     }
 
-    private fun callPhone(org:OrganizationDaoEntity){
+    private fun callPhone(org: OrganizationDaoEntity){
         val isCallPhonePermissionGranted = ActivityCompat.checkSelfPermission(
             requireContext(), Manifest.permission.CALL_PHONE
         ) == PackageManager.PERMISSION_GRANTED
@@ -123,7 +126,12 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode == RESULT_CODE_PHONE){
             //вызываем bottomSheet для оценки вызова
-            ResultCallFragment(idOrg).show(supportFragmentManager, "tag")
+            val bundle = Bundle()
+            bundle.putInt("idOrg", idOrg)
+            with(ResultCallFragment()){
+                arguments = bundle
+                show(supportFragmentManager, "tag")
+            }
         }
     }
 
