@@ -1,13 +1,12 @@
 package com.anufriev.presentation.delegates
 
-import android.graphics.Color
-import com.anufriev.data.db.entities.FeedBack
+import com.anufriev.data.db.entities.FeedBackDaoEntity
 import com.anufriev.presentation.R
 import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateLayoutContainer
 import kotlinx.android.synthetic.main.item_feedback_list.view.*
 
 fun itemFeedBackList() =
-    adapterDelegateLayoutContainer<FeedBack, Any>(R.layout.item_feedback_list) {
+    adapterDelegateLayoutContainer<FeedBackDaoEntity, Any>(R.layout.item_feedback_list) {
 
         bind {
             containerView.tvDescriptionFeedBack.text = item.description

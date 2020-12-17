@@ -13,7 +13,7 @@ class HeaderInterceptor(
             !pref.authToken.isNullOrEmpty() -> {
                 val newRequest =
                     chain.request().newBuilder()
-                        .header("Authorization", "bearer " + pref.authToken.toString())
+                        //.header("Authorization", "bearer " + pref.authToken.toString())
                         .header("Content-Type","application/json; charset=UTF-8")
                         .build()
 

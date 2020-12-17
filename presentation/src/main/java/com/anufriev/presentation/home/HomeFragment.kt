@@ -6,13 +6,11 @@ import android.content.pm.PackageManager
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
-import android.os.CountDownTimer
 import android.view.View
-import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.anufriev.data.db.entities.Organization
+import com.anufriev.data.db.entities.OrganizationDaoEntity
 import com.anufriev.presentation.R
 import com.anufriev.presentation.delegates.itemOrgList
 import com.anufriev.presentation.infoCompany.InfoCompanyFragment
@@ -59,7 +57,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
 //                    "Описание: $it",
 //                    KCustomToast.GRAVITY_BOTTOM
 //                ).duration = Toast.LENGTH_LONG
-                InfoCompanyFragment(it.title,"Описание: ${it.description}").show(supportFragmentManager, "tag2")
+                InfoCompanyFragment(it.name,"Описание: ${it.description}").show(supportFragmentManager, "tag2")
             })
         )
     }
@@ -74,6 +72,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
         )
         pullToRefresh_home.setColorSchemeColors(Color.WHITE)
         pullToRefresh_home.setOnRefreshListener {
+            screenViewModel.getOrg()
             KCustomToast.infoToast(
                 requireActivity(),
                 "Информация обновлена",
@@ -93,19 +92,20 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
         }
     }
 
-    private fun handleWorks(works: List<Organization>?){
+    private fun handleWorks(works: List<OrganizationDaoEntity>?){
         works?.let {
             orgListAdapter.setData(works)
         }
     }
 
-    private fun callPhone(phone: String){
+    private fun callPhone(org:OrganizationDaoEntity){
         val isCallPhonePermissionGranted = ActivityCompat.checkSelfPermission(
             requireContext(), Manifest.permission.CALL_PHONE
         ) == PackageManager.PERMISSION_GRANTED
         if (isCallPhonePermissionGranted) {
+            idOrg = org.id
             val intent = Intent(Intent.ACTION_CALL)
-            intent.data = Uri.parse("tel:$phone")
+            intent.data = Uri.parse("tel:${org.phoneNumber}")
             startActivityForResult(intent, RESULT_CODE_PHONE)
         } else {
             requestPermissions(
@@ -118,11 +118,12 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
 
     }
 
+    private var idOrg:Int = 0
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode == RESULT_CODE_PHONE){
             //вызываем bottomSheet для оценки вызова
-            ResultCallFragment().show(supportFragmentManager, "tag")
+            ResultCallFragment(idOrg).show(supportFragmentManager, "tag")
         }
     }
 
