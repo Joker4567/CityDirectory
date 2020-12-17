@@ -18,8 +18,8 @@ class FeedBackRepositoryImp(
     ) : BaseRepository(errorHandler), FeedBackRepository {
 
     override suspend fun getFeedBackList(id: Int): List<FeedBackDaoEntity> = feedBackDao.getFeedBackList(id)
-    override suspend fun setFeedBackList(list: List<FeedBack>, idOrg:Int) {
-        feedBackDao.setFeedBackList(list.map { it.from(idOrg) })
+    override suspend fun setFeedBackList(list: List<FeedBack>, idOrg:Int, uid:String) {
+        feedBackDao.setFeedBackList(list.map { it.from(idOrg, uid) })
     }
 
     override suspend fun getFeedBackListNetwork(
@@ -49,5 +49,9 @@ class FeedBackRepositoryImp(
             api.setRatingReviews(idOrg,requestBody)
         }
     }
+
+    override suspend fun getLastFeedBack(id: Int, uid:String): FeedBackDaoEntity = feedBackDao.getLastFeedBack(id, uid)
+
+    override suspend fun updateFeedBack(item: FeedBackDaoEntity) = feedBackDao.updateFeedBack(item)
 
 }

@@ -7,5 +7,7 @@ object FeedBackContract {
         const val idOrg = "idOrg"
         const val state = "state"
         const val description = "description"
+        const val time = "time"
+        const val uid = "uid"
     }
 }

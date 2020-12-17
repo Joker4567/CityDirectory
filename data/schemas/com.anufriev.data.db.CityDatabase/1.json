@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "77deb3314ec263ccb0ba991fc24bc03b",
+    "identityHash": "960306a40872a0fb83a64e509134ce1e",
     "entities": [
       {
         "tableName": "orgList",
@@ -50,7 +50,7 @@
       },
       {
         "tableName": "feedBackList",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `idOrg` INTEGER NOT NULL, `state` INTEGER NOT NULL, `description` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `idOrg` INTEGER NOT NULL, `state` INTEGER NOT NULL, `description` TEXT NOT NULL, `time` INTEGER NOT NULL, `uid` TEXT NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -75,6 +75,18 @@
             "columnName": "description",
             "affinity": "TEXT",
             "notNull": true
+          },
+          {
+            "fieldPath": "time",
+            "columnName": "time",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "uid",
+            "columnName": "uid",
+            "affinity": "TEXT",
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -90,7 +102,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '77deb3314ec263ccb0ba991fc24bc03b')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '960306a40872a0fb83a64e509134ce1e')"
     ]
   }
 }

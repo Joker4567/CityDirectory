@@ -78,6 +78,11 @@ class FeedBackFragment : BaseFragment(R.layout.fragment_feedback) {
             }
         }
         observeLifeCycle(screenViewModel.feedBacks, ::handleWorks)
+        observeLifeCycle(screenViewModel.error, { KCustomToast.infoToast(
+            requireActivity(),
+            it!!,
+            KCustomToast.GRAVITY_BOTTOM
+        ) })
     }
 
     private fun handleWorks(list: List<FeedBackDaoEntity>?){

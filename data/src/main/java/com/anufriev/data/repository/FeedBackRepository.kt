@@ -7,7 +7,7 @@ import com.anufriev.utils.platform.State
 
 interface FeedBackRepository {
     suspend fun getFeedBackList(id:Int):List<FeedBackDaoEntity>
-    suspend fun setFeedBackList(list:List<FeedBack>, idOrg:Int)
+    suspend fun setFeedBackList(list:List<FeedBack>, idOrg:Int, uid:String)
     suspend fun getFeedBackListNetwork(
         idOrg:Int,
         onSuccess: (List<FeedBack>) -> Unit,
@@ -20,4 +20,8 @@ interface FeedBackRepository {
         onSuccess: (FeedBack) -> Unit,
         onState: (State) -> Unit
     )
+
+    suspend fun getLastFeedBack(id:Int, uid:String):FeedBackDaoEntity
+
+    suspend  fun updateFeedBack(item:FeedBackDaoEntity)
 }

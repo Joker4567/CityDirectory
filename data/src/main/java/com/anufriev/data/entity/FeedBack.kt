@@ -10,7 +10,7 @@ data class FeedBack(
     val isPositive:Boolean,
     val text:String
 ) {
-    fun from(idOrg:Int) = FeedBackDaoEntity(
-        id, idOrg, isPositive, text
+    fun from(idOrg:Int, uid:String) = FeedBackDaoEntity(
+        id, idOrg, isPositive, text, 0, uid
     )
 }
