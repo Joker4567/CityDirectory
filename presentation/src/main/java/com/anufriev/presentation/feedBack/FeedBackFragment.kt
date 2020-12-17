@@ -51,7 +51,7 @@ class FeedBackFragment : BaseFragment(R.layout.fragment_feedback) {
                     "Отзыв успешно добавлен",
                     KCustomToast.GRAVITY_BOTTOM
                 )
-                editTextTextMultiLine.text = ""
+                editTextTextMultiLine.setText("")
             } else {
                 KCustomToast.infoToast(
                     requireActivity(),
@@ -68,7 +68,7 @@ class FeedBackFragment : BaseFragment(R.layout.fragment_feedback) {
                     "Отзыв успешно добавлен",
                     KCustomToast.GRAVITY_BOTTOM
                 )
-                editTextTextMultiLine.text = ""
+                editTextTextMultiLine.setText("")
             } else {
                 KCustomToast.infoToast(
                     requireActivity(),
