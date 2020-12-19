@@ -3,7 +3,7 @@
     <item android:drawable="@color/colorAppBackground" />
 
     <item
-            android:drawable="@drawable/ic_icon"
-            android:gravity="center" />
+        android:drawable="@drawable/ic_icon"
+        android:gravity="center" />
 
 </layer-list>

@@ -14,7 +14,7 @@
     <color name="colorBackground">#F5F5F5</color>
     <color name="colorStatusBarBackground">#CF0E00</color>
     <color name="colorLightStatusBarBackground">#FFFFFF</color>
-    <color name="colorToolbarBackground">#FF1908</color>
+    <color name="colorToolbarBackground">#fede59</color>
     <color name="colorCardViewBackground">#FFFFFF</color>
     <color name="colorBottomBarBackground">#FFFFFF</color>
     <color name="colorBottomBarText">#9E9E9E</color>

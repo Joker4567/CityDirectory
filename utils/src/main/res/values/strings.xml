@@ -12,5 +12,5 @@
     <string name="content_connection_error">Ошибка соединения</string>
     <string name="btn_ok">ОК</string>
     <string name="btn_repeat">Повторить</string>
-    <string name="app_name">Городской справочник организаций</string>
+    <string name="app_name">ВсёТакси</string>
 </resources>

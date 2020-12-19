@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="@drawable/ic_toolbar_back_white"
         app:title="@string/fragment_feedback_title"
-        app:titleTextColor="@color/colorWhite" />
+        app:titleTextColor="@android:color/black" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvFeedBack"

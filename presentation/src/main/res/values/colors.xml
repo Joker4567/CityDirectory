@@ -2,22 +2,19 @@
 <resources>
     <color name="colorPrimary">#F44336</color>
     <color name="colorPrimaryLight">#E4FB392B</color>
-    <color name="colorAccent">#F18A24</color>
+    <color name="colorAccent">#F71B1A1A</color>
     <color name="colorPaleAccent">#80F18A24</color>
     <color name="colorLightHint">#9E9E9E</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorTransparent">#00FFFFFF</color>
-    <color name="colorView">#80CCCCCC</color>
     <color name="colorLightGray">#33ACACAC</color>
 
     <color name="colorAppBackground">#FFFFFF</color>
     <color name="colorBackground">#F5F5F5</color>
     <color name="colorStatusBarBackground">#CF0E00</color>
     <color name="colorLightStatusBarBackground">#FFFFFF</color>
-    <color name="colorToolbarBackground">#FF1908</color>
+    <color name="colorToolbarBackground">#fc6</color>
     <color name="colorCardViewBackground">#FFFFFF</color>
-    <color name="colorBottomBarBackground">#FFFFFF</color>
-    <color name="colorBottomBarText">#9E9E9E</color>
 
     <color name="colorTextBackground">#FFFFFF</color>
     <color name="colorTextSemiTransparentBackground">#B3FFFFFF</color>

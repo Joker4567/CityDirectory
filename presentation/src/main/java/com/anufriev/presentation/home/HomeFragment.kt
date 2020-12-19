@@ -61,6 +61,11 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
                     supportFragmentManager,
                     "tag2"
                 )
+            }, {
+                InfoCompanyFragment("Рейтинг", "\"Рейтинг формируется исходя из доступности сервиса +1, если ваш заказ приняли, -1 если нет и оставленных отзывов службе. Положительный +5, отрицательный -5\"").show(
+                    supportFragmentManager,
+                    "tag2"
+                )
             })
         )
     }
