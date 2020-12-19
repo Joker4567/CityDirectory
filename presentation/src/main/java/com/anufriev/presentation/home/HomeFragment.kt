@@ -24,6 +24,7 @@ import com.hannesdorfmann.adapterdelegates4.ListDelegationAdapter
 import jp.wasabeef.recyclerview.animators.ScaleInAnimator
 import kotlinx.android.synthetic.main.fragment_home.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import android.os.Handler
 
 
 class HomeFragment : BaseFragment(R.layout.fragment_home) {
@@ -52,11 +53,6 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
                 router.routeToDetail(it)
             }, {
                 //Вывод описания в customToast
-//                KCustomToast.infoToast(
-//                    requireActivity(),
-//                    "Описание: $it",
-//                    KCustomToast.GRAVITY_BOTTOM
-//                ).duration = Toast.LENGTH_LONG
                 InfoCompanyFragment(it.name, "Описание: ${it.description}").show(
                     supportFragmentManager,
                     "tag2"
@@ -130,13 +126,15 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode == RESULT_CODE_PHONE){
-            //вызываем bottomSheet для оценки вызова
-            val bundle = Bundle()
-            bundle.putInt("idOrg", idOrg)
-            with(ResultCallFragment()){
-                arguments = bundle
-                show(supportFragmentManager, "tag")
-            }
+            Handler().postDelayed({
+                //вызываем bottomSheet для оценки вызова
+                val bundle = Bundle()
+                bundle.putInt("idOrg", idOrg)
+                with(ResultCallFragment()){
+                    arguments = bundle
+                    show(supportFragmentManager, "tag")
+                }
+            },5000)
         }
     }
 
