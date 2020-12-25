@@ -24,14 +24,29 @@ class Pref(context: Context) {
             }
         }
 
+    var city: String?
+        get() = sharedPreferences.getString(KEY_CITY, null)
+        set(value) {
+            sharedPreferences.edit {
+                putString(KEY_CITY, value)
+            }
+        }
+
     fun clearToken() {
         sharedPreferences.edit {
             remove(KEY_TOKEN)
         }
     }
 
+    fun clearCity() {
+        sharedPreferences.edit {
+            remove(KEY_CITY)
+        }
+    }
+
     companion object {
         const val FILE_NAME = "CityPreference"
         const val KEY_TOKEN = "token"
+        const val KEY_CITY = "city"
     }
 }

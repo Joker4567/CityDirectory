@@ -2,6 +2,7 @@ package com.anufriev.data.repository
 
 import com.anufriev.data.db.dao.OrganizationDao
 import com.anufriev.data.db.entities.OrganizationDaoEntity
+import com.anufriev.data.entity.GeoCity
 import com.anufriev.data.entity.Organization
 import com.anufriev.data.network.ApiService
 import com.anufriev.utils.platform.BaseRepository
@@ -26,8 +27,8 @@ class OrganizationRepositoryImp(
         onSuccess: (Boolean) -> Unit,
         onState: (State) -> Unit
     ) {
-        execute(onSuccess = onSuccess, onState = onState){
-            val jsonObjectString = if(flag)
+        execute(onSuccess = onSuccess, onState = onState) {
+            val jsonObjectString = if (flag)
                 "true"
             else
                 "false"
@@ -38,6 +39,23 @@ class OrganizationRepositoryImp(
         }
     }
 
+    override suspend fun getCity(
+        lat: Double,
+        lon: Double,
+        onSuccess: (GeoCity) -> Unit,
+        onState: (State) -> Unit
+    ) {
+        execute(onSuccess = onSuccess, onState = onState) {
+            val url = "https://suggestions.dadata.ru/suggestions/api/4_1/rs/geolocate/address"
+            val jsonObjectString = "{ \"lat\": ${lat}, \"lon\": ${lon} }"
+            val requestBody = jsonObjectString.toRequestBody("application/json".toMediaTypeOrNull())
+            api.getCity(
+                url,
+                requestBody
+            )
+        }
+    }
+
     //Сохранить список организаций в локальную БД
     override suspend fun setOrganization(
         list: List<Organization>
@@ -45,11 +63,12 @@ class OrganizationRepositoryImp(
 
     //Получить список организаций с удаленного сервера
     override suspend fun getOrg(
+        city: String,
         onSuccess: (List<Organization>) -> Unit,
         onState: (State) -> Unit
     ) {
         execute(onSuccess = onSuccess, onState = onState) {
-            api.getOrg()
+            api.getOrg(city)
         }
     }
 }

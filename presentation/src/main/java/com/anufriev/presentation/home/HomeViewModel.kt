@@ -1,8 +1,10 @@
 package com.anufriev.presentation.home
 
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import com.anufriev.data.db.entities.OrganizationDaoEntity
 import com.anufriev.data.repository.OrganizationRepository
+import com.anufriev.data.storage.Pref
 import com.anufriev.utils.platform.BaseViewModel
 import com.anufriev.utils.platform.State
 
@@ -15,30 +17,43 @@ class HomeViewModel(
     init {
         //Загружаем список организаций из локальной базы данных
         //при обновлении swipeRefresh апршиваем новые данные из сети
-        getOrg()
     }
 
-    fun getOrg(){
+    fun getOrg(lat:Double, lon:Double, context: Context){
         launchIO {
-            repository.getOrg({
-                launchIO {
-                    repository.setOrganization(it)
-                    val list = repository.getOrganization()
-                    launch {
-                        works.postValue(list)
-                    }
-                }
+            repository.getCity(lat, lon, {
+                getOrg(it.suggestions.first().data.city)
+                Pref(context).city = it.suggestions.first().data.city
+            }, ::error)
 
-            },{
-                launchIO {
-                    if(it != State.Loaded && it != State.Loading) {
+        }
+    }
+
+    fun getOrg(city:String){
+        launchIO {
+            repository.getOrg(city,
+                {
+                    launchIO {
+                        repository.setOrganization(it)
                         val list = repository.getOrganization()
                         launch {
                             works.postValue(list)
                         }
                     }
+
+                }, ::error
+            )
+        }
+    }
+
+    private fun error(it:State){
+        launchIO {
+            if(it != State.Loaded && it != State.Loading) {
+                val list = repository.getOrganization()
+                launch {
+                    works.postValue(list)
                 }
-            })
+            }
         }
     }
 }

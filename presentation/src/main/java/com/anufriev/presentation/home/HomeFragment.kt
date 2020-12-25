@@ -25,6 +25,15 @@ import jp.wasabeef.recyclerview.animators.ScaleInAnimator
 import kotlinx.android.synthetic.main.fragment_home.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import android.os.Handler
+import android.util.Log
+import com.anufriev.data.storage.Pref
+import com.anufriev.utils.ext.show
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationServices
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import org.jetbrains.anko.support.v4.toast
 
 
 class HomeFragment : BaseFragment(R.layout.fragment_home) {
@@ -76,7 +85,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
         )
         pullToRefresh_home.setColorSchemeColors(Color.WHITE)
         pullToRefresh_home.setOnRefreshListener {
-            screenViewModel.getOrg()
+            getGeo(false)
             KCustomToast.infoToast(
                 requireActivity(),
                 "Информация обновлена",
@@ -85,6 +94,10 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
             pullToRefresh_home.isRefreshing = false
         }
         observeLifeCycle(screenViewModel.works, ::handleWorks)
+        tvCityChange.setOnClickListener {
+            //Запрос на смену города
+            getGeo()
+        }
     }
 
     private fun setupRecyclerView() {
@@ -97,9 +110,17 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
     }
 
     private fun handleWorks(works: List<OrganizationDaoEntity>?){
+        tvInfoCity.show()
         works?.let {
+            if(it.isEmpty())
+                tvCityChange.text = ""
+            else
+                tvInfoCity.gone()
             orgListAdapter.setData(works)
+            tvCityChange.text = Pref(requireContext()).city.toString()
         }
+        if(works == null)
+            tvCityChange.text = ""
     }
 
     private fun callPhone(org: OrganizationDaoEntity){
@@ -138,6 +159,15 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        if(Pref(requireContext()).city == null){
+            getGeo()
+        } else {
+            getGeo(false)
+        }
+    }
+
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -165,9 +195,51 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
                 }
             }
         }
+        if (requestCode == CODE_MAP) {
+            if (grantResults.all { it == PackageManager.PERMISSION_GRANTED }) {
+                getGeo()
+            } else {
+                val needRationale = ActivityCompat.shouldShowRequestPermissionRationale(
+                    requireActivity(),
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                )
+                if (needRationale) {
+                    toast("Для получения текущего местоположения, требуется разрешение!")
+                }
+            }
+        }
+    }
+
+    private fun getGeo(change:Boolean = true){
+        if(change) {
+            val isLocationPermissionGranted = ActivityCompat.checkSelfPermission(
+                requireContext(), Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+            if (isLocationPermissionGranted) {
+                CoroutineScope(Dispatchers.IO).launch {
+                    LocationServices.getFusedLocationProviderClient(requireContext())
+                        .getCurrentLocation(LocationRequest.PRIORITY_LOW_POWER, null)
+                        .addOnSuccessListener {
+                            screenViewModel.getOrg(it.latitude, it.longitude, requireContext())
+                        }
+                        .addOnCanceledListener { toast("Запрос локации был отменен") }
+                        .addOnFailureListener { toast("Запрос локации завершился неудачно") }
+                }
+            } else {
+                requestPermissions(
+                    arrayOf(
+                        Manifest.permission.ACCESS_FINE_LOCATION
+                    ),
+                    CODE_MAP
+                )
+            }
+        } else {
+            screenViewModel.getOrg(Pref(requireContext()).city.toString())
+        }
     }
 
     companion object {
+        private const val CODE_MAP = 1023;
         private const val RESULT_CODE_PHONE = 4213
         private const val PERMISSION_REQUEST_CODE_PHONE = 4313
     }
