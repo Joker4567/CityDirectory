@@ -47,6 +47,7 @@ class HomeViewModel(
     }
 
     private fun error(it:State){
+        handleState(it)
         launchIO {
             if(it != State.Loaded && it != State.Loading) {
                 val list = repository.getOrganization()

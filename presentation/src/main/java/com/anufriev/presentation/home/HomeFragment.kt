@@ -97,6 +97,11 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
         tvCityChange.setOnClickListener {
             //Запрос на смену города
             getGeo()
+            KCustomToast.infoToast(
+                requireActivity(),
+                "Отправлен запрос на смену города",
+                KCustomToast.GRAVITY_BOTTOM
+            )
         }
     }
 
@@ -119,8 +124,6 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
             orgListAdapter.setData(works)
             tvCityChange.text = Pref(requireContext()).city.toString()
         }
-        if(works == null)
-            tvCityChange.text = ""
     }
 
     private fun callPhone(org: OrganizationDaoEntity){
@@ -221,6 +224,11 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
                         .getCurrentLocation(LocationRequest.PRIORITY_LOW_POWER, null)
                         .addOnSuccessListener {
                             screenViewModel.getOrg(it.latitude, it.longitude, requireContext())
+                            KCustomToast.infoToast(
+                                requireActivity(),
+                                "Координаты получены, город установлен",
+                                KCustomToast.GRAVITY_BOTTOM
+                            )
                         }
                         .addOnCanceledListener { toast("Запрос локации был отменен") }
                         .addOnFailureListener { toast("Запрос локации завершился неудачно") }
