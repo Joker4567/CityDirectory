@@ -103,6 +103,11 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
                 KCustomToast.GRAVITY_BOTTOM
             )
         }
+        if(Pref(requireContext()).city == null){
+            getGeo()
+        } else {
+            getGeo(false)
+        }
     }
 
     private fun setupRecyclerView() {
@@ -159,15 +164,6 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
                     show(supportFragmentManager, "tag")
                 }
             },5000)
-        }
-    }
-
-    override fun onStart() {
-        super.onStart()
-        if(Pref(requireContext()).city == null){
-            getGeo()
-        } else {
-            getGeo(false)
         }
     }
 
