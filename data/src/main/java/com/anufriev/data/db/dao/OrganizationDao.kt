@@ -14,4 +14,7 @@ interface OrganizationDao {
 
     @Query("SELECT * FROM ${OrganizationContract.tableName}")
     fun getOrgList(): List<OrganizationDaoEntity>
+
+    @Query("DELETE FROM ${OrganizationContract.tableName}")
+    fun deleteAllOrg()
 }

@@ -56,6 +56,8 @@ class OrganizationRepositoryImp(
         }
     }
 
+    override suspend fun deleteAllOrg() = orgDao.deleteAllOrg()
+
     //Сохранить список организаций в локальную БД
     override suspend fun setOrganization(
         list: List<Organization>

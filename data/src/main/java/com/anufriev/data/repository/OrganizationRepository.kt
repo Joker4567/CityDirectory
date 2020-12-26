@@ -29,4 +29,6 @@ interface OrganizationRepository {
         lon:Double,
         onSuccess: (GeoCity) -> Unit,
         onState: (State) -> Unit)
+
+    suspend fun deleteAllOrg()
 }

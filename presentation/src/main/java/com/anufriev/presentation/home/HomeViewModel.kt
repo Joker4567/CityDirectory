@@ -2,6 +2,8 @@ package com.anufriev.presentation.home
 
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
+import androidx.room.withTransaction
+import com.anufriev.data.db.CityDatabase
 import com.anufriev.data.db.entities.OrganizationDaoEntity
 import com.anufriev.data.repository.OrganizationRepository
 import com.anufriev.data.storage.Pref
@@ -34,13 +36,15 @@ class HomeViewModel(
             repository.getOrg(city,
                 {
                     launchIO {
-                        repository.setOrganization(it)
+                        CityDatabase.instance.withTransaction {
+                            repository.deleteAllOrg()//Очищаем старые записи
+                            repository.setOrganization(it)
+                        }
                         val list = repository.getOrganization()
                         launch {
                             works.postValue(list)
                         }
                     }
-
                 }, ::error
             )
         }
