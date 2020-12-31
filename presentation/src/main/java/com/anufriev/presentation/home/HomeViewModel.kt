@@ -23,7 +23,7 @@ class HomeViewModel(
 
     fun getOrg(lat:Double, lon:Double, context: Context){
         launchIO {
-            repository.getCity(56.1089, 94.5869, {
+            repository.getCity(lat, lon, {
                 getOrg(it.suggestions.first().data.city)
                 Pref(context).city = it.suggestions.first().data.city
             }, ::error)
