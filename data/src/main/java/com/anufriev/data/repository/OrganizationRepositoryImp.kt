@@ -10,6 +10,7 @@ import com.anufriev.utils.platform.ErrorHandler
 import com.anufriev.utils.platform.State
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
+import java.lang.RuntimeException
 
 class OrganizationRepositoryImp(
     errorHandler: ErrorHandler,
@@ -70,7 +71,9 @@ class OrganizationRepositoryImp(
         onState: (State) -> Unit
     ) {
         execute(onSuccess = onSuccess, onState = onState) {
-            api.getOrg(city)
+            try {
+                api.getOrg(city)
+            } catch (ex:KotlinNullPointerException){ emptyList<Organization>() }
         }
     }
 }

@@ -18,8 +18,8 @@ class ResultCallFragment() : BottomSheetDialogFragment() {
     var idOrg = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (arguments != null && requireArguments().containsKey("idOrg")) {
-            idOrg = requireArguments().getInt("idOrg")
+        if (arguments != null && requireArguments().containsKey(ID_ORG)) {
+            idOrg = requireArguments().getInt(ID_ORG)
         }
     }
 
@@ -33,6 +33,9 @@ class ResultCallFragment() : BottomSheetDialogFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        if (arguments != null && requireArguments().containsKey(ID_ORG)) {
+            idOrg = requireArguments().getInt(ID_ORG)
+        }
         imageViewPositive.setOnClickListener {
             screenViewModel.setRating(true, idOrg)
             KCustomToast.infoToast(
@@ -52,5 +55,15 @@ class ResultCallFragment() : BottomSheetDialogFragment() {
             )
             this.onDestroyView()
         }
+    }
+
+    companion object {
+        fun newInstance(idOrg:Int): ResultCallFragment =
+            ResultCallFragment().apply {
+                arguments = Bundle().apply {
+                    putInt(ID_ORG, idOrg)
+                }
+            }
+        const val ID_ORG = "ID_ORG"
     }
 }

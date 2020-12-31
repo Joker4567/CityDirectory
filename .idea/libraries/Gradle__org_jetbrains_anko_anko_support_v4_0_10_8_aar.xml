@@ -1,9 +1,11 @@
 <component name="libraryTable">
   <library name="Gradle: org.jetbrains.anko:anko-support-v4:0.10.8@aar">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/d05b098da37406b9e1582ce2b18ef379/jetified-anko-support-v4-0.10.8/jars/classes.jar!/" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/d05b098da37406b9e1582ce2b18ef379/jetified-anko-support-v4-0.10.8/res" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/d05b098da37406b9e1582ce2b18ef379/jetified-anko-support-v4-0.10.8/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/3f4def2b1c1a5db990c2f3ad88a758b0/jetified-anko-support-v4-0.10.8/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/fee981efcd534ecfe32cbe3366e45f7b/jetified-anko-support-v4-0.10.8/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/fee981efcd534ecfe32cbe3366e45f7b/jetified-anko-support-v4-0.10.8/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/fee981efcd534ecfe32cbe3366e45f7b/jetified-anko-support-v4-0.10.8/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

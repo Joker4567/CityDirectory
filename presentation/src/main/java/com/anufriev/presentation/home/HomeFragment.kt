@@ -6,11 +6,14 @@ import android.content.pm.PackageManager
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.util.Log
 import android.view.View
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.anufriev.data.db.entities.OrganizationDaoEntity
+import com.anufriev.data.storage.Pref
 import com.anufriev.presentation.R
 import com.anufriev.presentation.delegates.itemOrgList
 import com.anufriev.presentation.infoCompany.InfoCompanyFragment
@@ -19,21 +22,18 @@ import com.anufriev.utils.common.KCustomToast
 import com.anufriev.utils.ext.gone
 import com.anufriev.utils.ext.observeLifeCycle
 import com.anufriev.utils.ext.setData
+import com.anufriev.utils.ext.show
 import com.anufriev.utils.platform.BaseFragment
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationServices
 import com.hannesdorfmann.adapterdelegates4.ListDelegationAdapter
 import jp.wasabeef.recyclerview.animators.ScaleInAnimator
 import kotlinx.android.synthetic.main.fragment_home.*
-import org.koin.androidx.viewmodel.ext.android.viewModel
-import android.os.Handler
-import android.util.Log
-import com.anufriev.data.storage.Pref
-import com.anufriev.utils.ext.show
-import com.google.android.gms.location.LocationRequest
-import com.google.android.gms.location.LocationServices
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.jetbrains.anko.support.v4.toast
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class HomeFragment : BaseFragment(R.layout.fragment_home) {
@@ -67,7 +67,10 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
                     "tag2"
                 )
             }, {
-                InfoCompanyFragment("Рейтинг", "\"Рейтинг формируется исходя из доступности сервиса +1, если ваш заказ приняли, -1 если нет и оставленных отзывов службе. Положительный +5, отрицательный -5\"").show(
+                InfoCompanyFragment(
+                    "Рейтинг",
+                    "\"Рейтинг формируется исходя из доступности сервиса +1, если ваш заказ приняли, -1 если нет и оставленных отзывов службе. Положительный +5, отрицательный -5\""
+                ).show(
                     supportFragmentManager,
                     "tag2"
                 )
@@ -75,7 +78,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
         )
     }
 
-    private fun bind(){
+    private fun bind() {
         toolbar.gone()
         pullToRefresh_home.setProgressBackgroundColorSchemeColor(
             ContextCompat.getColor(
@@ -103,7 +106,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
                 KCustomToast.GRAVITY_BOTTOM
             )
         }
-        if(Pref(requireContext()).city == null){
+        if (Pref(requireContext()).city == null) {
             getGeo()
         } else {
             getGeo(false)
@@ -119,10 +122,10 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
         }
     }
 
-    private fun handleWorks(works: List<OrganizationDaoEntity>?){
+    private fun handleWorks(works: List<OrganizationDaoEntity>?) {
         tvInfoCity.show()
         works?.let {
-            if(it.isEmpty())
+            if (it.isEmpty())
                 tvCityChange.text = ""
             else
                 tvInfoCity.gone()
@@ -131,7 +134,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
         }
     }
 
-    private fun callPhone(org: OrganizationDaoEntity){
+    private fun callPhone(org: OrganizationDaoEntity) {
         val isCallPhonePermissionGranted = ActivityCompat.checkSelfPermission(
             requireContext(), Manifest.permission.CALL_PHONE
         ) == PackageManager.PERMISSION_GRANTED
@@ -151,19 +154,22 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
 
     }
 
-    private var idOrg:Int = 0
+    private var idOrg: Int = 0
+    private var callPhone = false
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode == RESULT_CODE_PHONE){
-            Handler().postDelayed({
-                //вызываем bottomSheet для оценки вызова
-                val bundle = Bundle()
-                bundle.putInt("idOrg", idOrg)
-                with(ResultCallFragment()){
-                    arguments = bundle
-                    show(supportFragmentManager, "tag")
-                }
-            },5000)
+        if (requestCode == RESULT_CODE_PHONE) {
+            callPhone = true
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        if(callPhone){
+            //вызываем bottomSheet для оценки вызова
+            val fragment = ResultCallFragment.newInstance(idOrg)
+            fragment.show(supportFragmentManager, "review")
+            callPhone = false
         }
     }
 
@@ -209,8 +215,8 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
         }
     }
 
-    private fun getGeo(change:Boolean = true){
-        if(change) {
+    private fun getGeo(change: Boolean = true) {
+        if (change) {
             val isLocationPermissionGranted = ActivityCompat.checkSelfPermission(
                 requireContext(), Manifest.permission.ACCESS_FINE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED
