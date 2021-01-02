@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "306917362961",
+    "project_id": "citytaxivse",
+    "storage_bucket": "citytaxivse.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:306917362961:android:aa9b3ca556d0ef986e90b0",
+        "android_client_info": {
+          "package_name": "com.anufriev.city"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "306917362961-6t18ifhbsat1mp9i2cru0sdf28lofj3k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCRL9K-Z2ly09OJNdjHbPtxH9A6PUHc0_o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "306917362961-6t18ifhbsat1mp9i2cru0sdf28lofj3k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

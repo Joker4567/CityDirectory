@@ -1,13 +1,13 @@
 package com.anufriev.presentation.home
 
 import android.Manifest
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
+import android.location.LocationManager
 import android.net.Uri
 import android.os.Bundle
-import android.os.Handler
-import android.util.Log
 import android.view.View
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -100,11 +100,12 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
         tvCityChange.setOnClickListener {
             //Запрос на смену города
             getGeo()
-            KCustomToast.infoToast(
-                requireActivity(),
-                "Отправлен запрос на смену города",
-                KCustomToast.GRAVITY_BOTTOM
-            )
+            if(getGPS())
+                KCustomToast.infoToast(
+                    requireActivity(),
+                    "Отправлен запрос на смену города",
+                    KCustomToast.GRAVITY_BOTTOM
+                )
         }
         if (Pref(requireContext()).city == null) {
             getGeo()
@@ -130,7 +131,10 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
             else
                 tvInfoCity.gone()
             orgListAdapter.setData(works)
-            tvCityChange.text = Pref(requireContext()).city.toString()
+            if(Pref(requireContext()).city == null)
+                tvCityChange.text = "Название города"
+            else
+                tvCityChange.text = Pref(requireContext()).city.toString()
         }
     }
 
@@ -220,7 +224,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
             val isLocationPermissionGranted = ActivityCompat.checkSelfPermission(
                 requireContext(), Manifest.permission.ACCESS_FINE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED
-            if (isLocationPermissionGranted) {
+            if (isLocationPermissionGranted && getGPS()) {
                 CoroutineScope(Dispatchers.IO).launch {
                     LocationServices.getFusedLocationProviderClient(requireContext())
                         .getCurrentLocation(LocationRequest.PRIORITY_LOW_POWER, null)
@@ -235,7 +239,15 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
                         .addOnCanceledListener { toast("Запрос локации был отменен") }
                         .addOnFailureListener { toast("Запрос локации завершился неудачно") }
                 }
-            } else {
+            }
+            else if(!getGPS()){
+                KCustomToast.infoToast(
+                    requireActivity(),
+                    "Включите геолокацию, для определения города!",
+                    KCustomToast.GRAVITY_CENTER
+                )
+            }
+            else {
                 requestPermissions(
                     arrayOf(
                         Manifest.permission.ACCESS_FINE_LOCATION
@@ -244,8 +256,33 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
                 )
             }
         } else {
-            screenViewModel.getOrg(Pref(requireContext()).city.toString())
+            if(Pref(requireContext()).city == null && !getGPS()){
+                KCustomToast.infoToast(
+                    requireActivity(),
+                    "Включите геолокацию, для определения города!",
+                    KCustomToast.GRAVITY_CENTER
+                )
+                tvInfoCity.text = "Включите геолокацию, для определения города!"
+            }
+            else if(Pref(requireContext()).city == null)
+            {
+                KCustomToast.infoToast(
+                    requireActivity(),
+                    "Нажмите на 'Название города'",
+                    KCustomToast.GRAVITY_CENTER
+                )
+            }
+            else {
+                tvInfoCity.text = "Ваш город будет добавлен в ближайщее время"
+                screenViewModel.getOrg(Pref(requireContext()).city.toString())
+            }
         }
+    }
+
+    private fun getGPS() : Boolean {
+        val locationManager =
+            requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
     }
 
     companion object {
