@@ -20,7 +20,9 @@ data class OrganizationDaoEntity(
     @ColumnInfo(name = OrganizationContract.Column.rating)
     val rating:Int,
     @ColumnInfo(name = OrganizationContract.Column.description)
-    val description:String
+    val description:String,
+    @ColumnInfo(name = OrganizationContract.Column.ratingGoodBad, defaultValue = "0/0")
+    var ratingGoodBad:String = "0/0"
 ):Serializable {
     fun from() = Organization(
         id, name, phoneNumber, rating, description

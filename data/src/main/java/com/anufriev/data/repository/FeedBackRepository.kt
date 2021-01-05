@@ -16,6 +16,7 @@ interface FeedBackRepository {
     suspend fun setRatingReviews(
         flag:Boolean,
         text:String,
+        date:String,
         idOrg:Int,
         onSuccess: (FeedBack) -> Unit,
         onState: (State) -> Unit

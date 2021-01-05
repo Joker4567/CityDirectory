@@ -9,7 +9,8 @@ fun itemOrgList(
     callClick: (OrganizationDaoEntity) -> Unit,
     feedBackClick: (OrganizationDaoEntity) -> Unit,
     infoDescription: (OrganizationDaoEntity) -> Unit,
-    ratingClick:(String) -> Unit) =
+    ratingClick:(String) -> Unit,
+    shareClick: (OrganizationDaoEntity) -> Unit,) =
     adapterDelegateLayoutContainer<OrganizationDaoEntity, Any>(R.layout.item_org_list) {
 
         //Вызов
@@ -21,7 +22,10 @@ fun itemOrgList(
 
         //Info
         containerView.imageViewInfo.setOnClickListener { infoDescription.invoke(item) }
-        containerView.tvInfo.setOnClickListener { infoDescription.invoke(item) }
+
+        //Share
+        containerView.imageViewShare.setOnClickListener { shareClick.invoke(item) }
+        containerView.tvShare.setOnClickListener { shareClick.invoke(item) }
 
         //Отзывы
         containerView.imgViewFeedBack.setOnClickListener { feedBackClick.invoke(item) }
@@ -33,6 +37,14 @@ fun itemOrgList(
             else if(item.rating <= 0)
                 containerView.tvRating.text = "${item.rating}"
             containerView.tvCompany.text = item.name
+            if(item.ratingGoodBad.isNotEmpty()) {
+                containerView.tvPositive.text = item.ratingGoodBad.split('/')[0]
+                containerView.tvNegative.text = item.ratingGoodBad.split('/')[1]
+            }
+            else {
+                containerView.tvPositive.text = "0"
+                containerView.tvNegative.text = "0"
+            }
         }
     }
 

@@ -9,5 +9,6 @@ object FeedBackContract {
         const val description = "description"
         const val time = "time"
         const val uid = "uid"
+        const val date = "date"
     }
 }

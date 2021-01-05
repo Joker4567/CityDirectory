@@ -8,9 +8,10 @@ import com.squareup.moshi.JsonClass
 data class FeedBack(
     val id:Int,
     val isPositive:Boolean,
-    val text:String
+    val text:String,
+    val date:String
 ) {
     fun from(idOrg:Int, uid:String) = FeedBackDaoEntity(
-        id, idOrg, isPositive, text, 0, uid
+        id, idOrg, isPositive, text, 0, uid, date
     )
 }

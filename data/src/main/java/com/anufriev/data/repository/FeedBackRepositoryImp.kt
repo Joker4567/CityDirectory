@@ -35,6 +35,7 @@ class FeedBackRepositoryImp(
     override suspend fun setRatingReviews(
         flag:Boolean,
         text:String,
+        date:String,
         idOrg: Int,
         onSuccess: (FeedBack) -> Unit,
         onState: (State) -> Unit
@@ -43,6 +44,7 @@ class FeedBackRepositoryImp(
             val jsonObject = JSONObject()
             jsonObject.put("isPositive", flag)
             jsonObject.put("text", text)
+            jsonObject.put("date",date)
             val jsonObjectString = jsonObject.toString()
             val requestBody = jsonObjectString.toRequestBody("application/json".toMediaTypeOrNull())
 

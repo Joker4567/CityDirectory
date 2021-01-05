@@ -5,13 +5,15 @@ import androidx.lifecycle.MutableLiveData
 import androidx.room.withTransaction
 import com.anufriev.data.db.CityDatabase
 import com.anufriev.data.db.entities.OrganizationDaoEntity
+import com.anufriev.data.repository.FeedBackRepository
 import com.anufriev.data.repository.OrganizationRepository
 import com.anufriev.data.storage.Pref
 import com.anufriev.utils.platform.BaseViewModel
 import com.anufriev.utils.platform.State
 
 class HomeViewModel(
-    private val repository: OrganizationRepository
+    private val repository: OrganizationRepository,
+    private val feedBackRepository: FeedBackRepository
 ) : BaseViewModel() {
 
     var works = MutableLiveData<List<OrganizationDaoEntity>>()
@@ -23,7 +25,7 @@ class HomeViewModel(
 
     fun getOrg(lat:Double, lon:Double, context: Context){
         launchIO {
-            repository.getCity(lat, lon, {
+            repository.getCity(56.1089, 94.5869, {
                 getOrg(it.suggestions.first().data.city)
                 Pref(context).city = it.suggestions.first().data.city
             }, ::error)
@@ -41,8 +43,20 @@ class HomeViewModel(
                             repository.setOrganization(it)
                         }
                         val list = repository.getOrganization()
-                        launch {
-                            works.postValue(list)
+                        list.forEach { org ->
+                            launchIO {
+                                CityDatabase.instance.withTransaction {
+                                    val feed = feedBackRepository.getFeedBackList(org.id)
+                                    launch {
+                                        val positive = feed.filter { x -> x.state }.size
+                                        val negative = feed.size - positive
+                                        org.ratingGoodBad = "$positive/$negative"
+                                        if (list.last().id == org.id) {
+                                            works.postValue(list)
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }, ::error

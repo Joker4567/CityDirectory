@@ -16,5 +16,6 @@ fun itemFeedBackList() =
             else {
                 containerView.imageViewFeedBack.setImageResource(R.drawable.ic_baseline_thumb_down_alt_24)
             }
+            containerView.tvDate.text = item.date
         }
     }

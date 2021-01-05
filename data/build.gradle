@@ -55,6 +55,10 @@ dependencies {
     kapt "androidx.room:room-compiler:2.2.5"
     implementation "androidx.room:room-ktx:2.2.5"
 
+    // Roomigrant
+    implementation 'com.github.MatrixDev.Roomigrant:RoomigrantLib:0.2.0'
+    kapt 'com.github.MatrixDev.Roomigrant:RoomigrantCompiler:0.2.0'
+
     //Retrofit
     implementation "com.squareup.retrofit2:retrofit:2.9.0"
     implementation "com.squareup.retrofit2:converter-moshi:2.9.0"

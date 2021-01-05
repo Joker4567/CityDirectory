@@ -74,7 +74,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
                     supportFragmentManager,
                     "tag2"
                 )
-            })
+            }, ::shareApp)
         )
     }
 
@@ -283,6 +283,17 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
         val locationManager =
             requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+    }
+
+    private fun shareApp(org:OrganizationDaoEntity) {
+        val text = "Такси ${org.name} - ${Pref(requireContext()).city} в едином городском справочнике. \nПриложение в Google Play: https://play.google.com/store/apps/details?id=com.anufriev.city"
+        val intent = Intent(Intent.ACTION_SEND).apply {
+            putExtra(Intent.EXTRA_TEXT, text)
+            type = "text/plain"
+        }
+
+        val shareIntent = Intent.createChooser(intent, null)
+        startActivity(shareIntent)
     }
 
     companion object {
