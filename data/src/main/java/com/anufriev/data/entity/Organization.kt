@@ -18,6 +18,6 @@ data class Organization(
     val description:String
 ) {
     fun from() = OrganizationDaoEntity(
-        id, name, phoneNumber, rating, description, ""
+        id, name, phoneNumber.trim(), rating, description, ""
     )
 }

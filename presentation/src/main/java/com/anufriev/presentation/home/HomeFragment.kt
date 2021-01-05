@@ -8,6 +8,8 @@ import android.graphics.Color
 import android.location.LocationManager
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -34,6 +36,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.jetbrains.anko.support.v4.toast
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import permissions.dispatcher.PermissionRequest
+import permissions.dispatcher.ktx.constructPermissionsRequest
 
 
 class HomeFragment : BaseFragment(R.layout.fragment_home) {
@@ -50,6 +54,11 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
         router = HomeRouter(this)
         setupRecyclerView()
         bind()
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        removeContact()
     }
 
     private val orgListAdapter by lazy {
@@ -131,6 +140,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
             else
                 tvInfoCity.gone()
             orgListAdapter.setData(works)
+            removeContact()
             if(Pref(requireContext()).city == null)
                 tvCityChange.text = "Название города"
             else
@@ -155,7 +165,6 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
                 PERMISSION_REQUEST_CODE_PHONE
             )
         }
-
     }
 
     private var idOrg: Int = 0
@@ -275,6 +284,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
             else {
                 tvInfoCity.text = "Ваш город будет добавлен в ближайщее время"
                 screenViewModel.getOrg(Pref(requireContext()).city.toString())
+                removeContact()
             }
         }
     }
@@ -296,9 +306,56 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
         startActivity(shareIntent)
     }
 
+    private fun removeContact(){
+        val isContactPermissionGranted = ActivityCompat.checkSelfPermission(
+            requireContext(), Manifest.permission.READ_CONTACTS
+        ) == PackageManager.PERMISSION_GRANTED
+        if (isContactPermissionGranted) {
+            Handler(Looper.getMainLooper()).post {
+                constructPermissionsRequest(
+                    Manifest.permission.READ_CONTACTS,
+                    onShowRationale = ::onContactPermissionShowRationale,
+                    onPermissionDenied = ::onContactPermissionDenied,
+                    onNeverAskAgain = ::onContactPermissionNeverAskAgain,
+                    requiresPermission = {  }
+                )
+                    .launch()
+                constructPermissionsRequest(
+                    Manifest.permission.WRITE_CONTACTS,
+                    onShowRationale = ::onContactPermissionShowRationale,
+                    onPermissionDenied = ::onContactPermissionDenied,
+                    onNeverAskAgain = ::onContactPermissionNeverAskAgain,
+                    requiresPermission = { screenViewModel.removeContact() }
+                )
+                    .launch()
+            }
+        } else {
+            requestPermissions(
+                arrayOf(
+                    Manifest.permission.READ_CONTACTS,
+                    Manifest.permission.WRITE_CONTACTS,
+                ),
+                PERMISSION_REQUEST_CONTACT
+            )
+        }
+    }
+
+    private fun onContactPermissionDenied() {
+        toast(R.string.contact_list_permission_denied)
+    }
+
+    private fun onContactPermissionShowRationale(request: PermissionRequest) {
+        request.proceed()
+    }
+
+    private fun onContactPermissionNeverAskAgain() {
+        toast(R.string.contact_list_permission_never_ask_again)
+    }
+
     companion object {
         private const val CODE_MAP = 1023;
         private const val RESULT_CODE_PHONE = 4213
         private const val PERMISSION_REQUEST_CODE_PHONE = 4313
+        private const val PERMISSION_REQUEST_CONTACT = 1233;
     }
 }

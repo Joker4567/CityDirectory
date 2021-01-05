@@ -11,3 +11,10 @@ fun Date.toString(format: String, locale: Locale = Locale.getDefault()): String 
 fun getCurrentDateTime(): Date {
     return Calendar.getInstance().time
 }
+
+fun getShortPhone(number:String) : String {
+    var numberClear = number.filter { x -> x.isDigit() }
+    if(numberClear.length > 10)
+        return numberClear.substring(1)
+    return numberClear
+}
