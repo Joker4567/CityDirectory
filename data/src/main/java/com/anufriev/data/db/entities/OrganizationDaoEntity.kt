@@ -25,6 +25,6 @@ data class OrganizationDaoEntity(
     var ratingGoodBad:String = "0/0"
 ):Serializable {
     fun from() = Organization(
-        id, name, phoneNumber, rating, description
+        id, name, phoneNumber, rating, description, ratingGoodBad
     )
 }

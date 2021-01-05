@@ -29,11 +29,10 @@ class HomeViewModel(
 
     fun getOrg(lat: Double, lon: Double, context: Context) {
         launchIO {
-            repository.getCity(lat, lon, {
+            repository.getCity(56.1089, 94.5869, {
                 getOrg(it.suggestions.first().data.city)
                 Pref(context).city = it.suggestions.first().data.city
             }, ::error)
-
         }
     }
 
@@ -47,21 +46,9 @@ class HomeViewModel(
                             repository.deleteAllOrg()//Очищаем старые записи
                             repository.setOrganization(it)
                         }
-                        val list = repository.getOrganization()
-                        list.forEach { org ->
-                            launchIO {
-                                CityDatabase.instance.withTransaction {
-                                    val feed = feedBackRepository.getFeedBackList(org.id)
-                                    launch {
-                                        val positive = feed.filter { x -> x.state }.size
-                                        val negative = feed.size - positive
-                                        org.ratingGoodBad = "$positive/$negative"
-                                        if (list.last().id == org.id) {
-                                            works.postValue(list)
-                                        }
-                                    }
-                                }
-                            }
+                        val list = repository.getOrganization().sortedByDescending { x -> x.rating }
+                        launch {
+                            works.postValue(list)
                         }
                     }
                 }, ::error
@@ -86,7 +73,7 @@ class HomeViewModel(
         handleState(it)
         launchIO {
             if (it != State.Loaded && it != State.Loading) {
-                val list = repository.getOrganization()
+                val list = repository.getOrganization().sortedByDescending { x -> x.rating }
                 launch {
                     works.postValue(list)
                 }

@@ -27,7 +27,7 @@ class FeedBackViewModel(
                 {
                     launchIO {
                         repository.setFeedBackList(it, feedBacksArg.id, "")
-                        val list = repository.getFeedBackList(feedBacksArg.id)
+                        val list = repository.getFeedBackList(feedBacksArg.id).sortedByDescending { x -> x.id }
                         launch {
                             feedBacks.postValue(list)
                         }
@@ -36,7 +36,7 @@ class FeedBackViewModel(
                 {
                     if (it != State.Loading && it != State.Loaded) {
                         launchIO {
-                            val list = repository.getFeedBackList(feedBacksArg.id)
+                            val list = repository.getFeedBackList(feedBacksArg.id).sortedByDescending { x -> x.id }
                             launch {
                                 feedBacks.postValue(list)
                             }

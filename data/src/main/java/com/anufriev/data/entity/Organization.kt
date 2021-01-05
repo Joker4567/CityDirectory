@@ -15,9 +15,11 @@ data class Organization(
     @Json(name = "rating")
     val rating:Int,
     @Json(name = "description")
-    val description:String
+    val description:String,
+    @Json(name = "badPositive")
+    val badPositive:String
 ) {
     fun from() = OrganizationDaoEntity(
-        id, name, phoneNumber.trim(), rating, description, ""
+        id, name, phoneNumber.trim(), rating, description, badPositive
     )
 }

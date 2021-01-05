@@ -21,7 +21,7 @@ fun itemOrgList(
         containerView.tvRateText.setOnClickListener { ratingClick.invoke("") }
 
         //Info
-        containerView.imageViewInfo.setOnClickListener { infoDescription.invoke(item) }
+        containerView.tvCompany.setOnClickListener { infoDescription.invoke(item) }
 
         //Share
         containerView.imageViewShare.setOnClickListener { shareClick.invoke(item) }

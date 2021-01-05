@@ -296,7 +296,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
     }
 
     private fun shareApp(org:OrganizationDaoEntity) {
-        val text = "Такси ${org.name} - ${Pref(requireContext()).city} в едином городском справочнике. \nПриложение в Google Play: https://play.google.com/store/apps/details?id=com.anufriev.city"
+        val text = "${org.name} + ${Pref(requireContext()).city} уже в Едином городском справочнике такси. \nПриложение в Google Play: https://play.google.com/store/apps/details?id=com.anufriev.city"
         val intent = Intent(Intent.ACTION_SEND).apply {
             putExtra(Intent.EXTRA_TEXT, text)
             type = "text/plain"

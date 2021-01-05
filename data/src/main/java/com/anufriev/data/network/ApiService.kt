@@ -34,7 +34,7 @@ interface ApiService {
     //Production API f4fb9e447f9852a1f65edc1e8513aa988f4251c9
     @POST()
     @Headers(
-        "Authorization: Token f4fb9e447f9852a1f65edc1e8513aa988f4251c9",
+        "Authorization: Token eb78da4a7d0bb18dedb3eeadc9c144ca9f8e65ce",
         "Content-Type: application/json")
     suspend fun getCity(
         @Url url:String,
