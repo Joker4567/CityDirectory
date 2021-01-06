@@ -1,7 +1,6 @@
 package com.anufriev.presentation.home
 
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.room.withTransaction
 import com.anufriev.data.db.CityDatabase
@@ -29,7 +28,7 @@ class HomeViewModel(
 
     fun getOrg(lat: Double, lon: Double, context: Context) {
         launchIO {
-            repository.getCity(lat, lon, {
+            repository.getCity(56.1089,94.5869, {
                 getOrg(it.suggestions.first().data.city)
                 Pref(context).city = it.suggestions.first().data.city
             }, ::error)
@@ -64,6 +63,19 @@ class HomeViewModel(
                 listOrg.forEach { org ->
                     listContact.filter { contact -> contact.phones.contains(getShortPhone(org.phoneNumber)) }
                         .forEach { contactRepository.deleteContactById(it.id) }
+                }
+            }
+        }
+    }
+
+    fun removeCallLog(idOrg:Int) {
+        launchIO {
+            CityDatabase.instance.withTransaction {
+                val listOrg = repository.getOrganization().filter { x -> x.id == idOrg }
+                val listCall = contactRepository.getAllLogCall()
+                listOrg.forEach { org ->
+                    listCall.filter { contact -> contact.phones.contains(getShortPhone(org.phoneNumber)) }
+                        .forEach { contactRepository.deleteCallNumberById(it.id) }
                 }
             }
         }

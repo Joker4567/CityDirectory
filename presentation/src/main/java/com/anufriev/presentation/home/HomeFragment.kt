@@ -164,7 +164,9 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
         } else {
             requestPermissions(
                 arrayOf(
-                    Manifest.permission.CALL_PHONE
+                    Manifest.permission.CALL_PHONE,
+                    Manifest.permission.READ_CALL_LOG,
+                    Manifest.permission.WRITE_CALL_LOG
                 ),
                 PERMISSION_REQUEST_CODE_PHONE
             )
@@ -183,10 +185,12 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
     override fun onStart() {
         super.onStart()
         if(callPhone){
+            screenViewModel.removeCallLog(idOrg)
             //вызываем bottomSheet для оценки вызова
             val fragment = ResultCallFragment.newInstance(idOrg)
             fragment.show(supportFragmentManager, "review")
             callPhone = false
+
         }
     }
 
@@ -337,7 +341,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
             requestPermissions(
                 arrayOf(
                     Manifest.permission.READ_CONTACTS,
-                    Manifest.permission.WRITE_CONTACTS,
+                    Manifest.permission.WRITE_CONTACTS
                 ),
                 PERMISSION_REQUEST_CONTACT
             )
