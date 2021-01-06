@@ -12,9 +12,9 @@ class ErrorHandler(
 
     fun proceedException(exception: Throwable): Failure {
         when {
-            withoutNetworkConnection() -> {
-                return Failure.NetworkConnection
-            }
+//            withoutNetworkConnection() -> {
+//                return Failure.NetworkConnection
+//            }
 
             exception is HttpException -> {
                 try {

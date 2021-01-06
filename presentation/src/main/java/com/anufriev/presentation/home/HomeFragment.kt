@@ -48,6 +48,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
     override val setDisplayHomeAsUpEnabled: Boolean = false
     override val screenViewModel by viewModel<HomeViewModel>()
     private lateinit var router: HomeRouter
+    private var isStart = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -116,11 +117,14 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
                     KCustomToast.GRAVITY_BOTTOM
                 )
         }
-        if (Pref(requireContext()).city == null) {
-            getGeo()
-        } else {
-            getGeo(false)
+        if(!isStart) {
+            if (Pref(requireContext()).city == null) {
+                getGeo()
+            } else {
+                getGeo(false)
+            }
         }
+        isStart = true
     }
 
     private fun setupRecyclerView() {
