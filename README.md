@@ -14,6 +14,7 @@
 * LocationServices (Google services)
 * Room
 * Jetpack Navigation
+* Content provider (телефонная книга, журнал вызовов)
 
 ## Google play
 
