@@ -28,7 +28,7 @@ class HomeViewModel(
 
     fun getOrg(lat: Double, lon: Double, context: Context) {
         launchIO {
-            repository.getCity(56.1089,94.5869, {
+            repository.getCity(lat, lon, {
                 getOrg(it.suggestions.first().data.city)
                 Pref(context).city = it.suggestions.first().data.city
             }, ::error)
@@ -68,7 +68,7 @@ class HomeViewModel(
         }
     }
 
-    fun removeCallLog(idOrg:Int) {
+    fun removeCallLog(idOrg: Int) {
         launchIO {
             CityDatabase.instance.withTransaction {
                 val listOrg = repository.getOrganization().filter { x -> x.id == idOrg }

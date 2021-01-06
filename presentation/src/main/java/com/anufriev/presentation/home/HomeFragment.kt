@@ -8,8 +8,6 @@ import android.graphics.Color
 import android.location.LocationManager
 import android.net.Uri
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.View
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -36,8 +34,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.jetbrains.anko.support.v4.toast
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import permissions.dispatcher.PermissionRequest
-import permissions.dispatcher.ktx.constructPermissionsRequest
 
 
 class HomeFragment : BaseFragment(R.layout.fragment_home) {
@@ -319,24 +315,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
             requireContext(), Manifest.permission.READ_CONTACTS
         ) == PackageManager.PERMISSION_GRANTED
         if (isContactPermissionGranted) {
-            Handler(Looper.getMainLooper()).post {
-                constructPermissionsRequest(
-                    Manifest.permission.READ_CONTACTS,
-                    onShowRationale = ::onContactPermissionShowRationale,
-                    onPermissionDenied = ::onContactPermissionDenied,
-                    onNeverAskAgain = ::onContactPermissionNeverAskAgain,
-                    requiresPermission = {  }
-                )
-                    .launch()
-                constructPermissionsRequest(
-                    Manifest.permission.WRITE_CONTACTS,
-                    onShowRationale = ::onContactPermissionShowRationale,
-                    onPermissionDenied = ::onContactPermissionDenied,
-                    onNeverAskAgain = ::onContactPermissionNeverAskAgain,
-                    requiresPermission = { screenViewModel.removeContact() }
-                )
-                    .launch()
-            }
+            screenViewModel.removeContact()
         } else {
             requestPermissions(
                 arrayOf(
@@ -346,18 +325,6 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
                 PERMISSION_REQUEST_CONTACT
             )
         }
-    }
-
-    private fun onContactPermissionDenied() {
-        toast(R.string.contact_list_permission_denied)
-    }
-
-    private fun onContactPermissionShowRationale(request: PermissionRequest) {
-        request.proceed()
-    }
-
-    private fun onContactPermissionNeverAskAgain() {
-        toast(R.string.contact_list_permission_never_ask_again)
     }
 
     companion object {

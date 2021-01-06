@@ -89,8 +89,4 @@ dependencies {
     //RecyclerViewDelegates
     implementation "com.hannesdorfmann:adapterdelegates4-kotlin-dsl:4.3.0"
     implementation "com.hannesdorfmann:adapterdelegates4-kotlin-dsl-layoutcontainer:4.3.0"
-
-    implementation "androidx.fragment:fragment-ktx:1.2.5"
-    //Permissions
-    implementation "org.permissionsdispatcher:permissionsdispatcher-ktx:1.0.1"
 }
