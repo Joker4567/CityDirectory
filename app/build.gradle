@@ -16,7 +16,7 @@ android {
         applicationId 'com.anufriev.city'
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 8
+        versionCode 9
         versionName "1.0.4"
     }
     buildTypes {

@@ -106,14 +106,14 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
         tvCityChange.setOnClickListener {
             //Запрос на смену города
             getGeo()
-            if(getGPS())
+            if (getGPS())
                 KCustomToast.infoToast(
                     requireActivity(),
                     "Отправлен запрос на смену города",
                     KCustomToast.GRAVITY_BOTTOM
                 )
         }
-        if(!isStart) {
+        if (!isStart) {
             if (Pref(requireContext()).city == null) {
                 getGeo()
             } else {
@@ -141,7 +141,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
                 tvInfoCity.gone()
             orgListAdapter.setData(works)
             removeContact()
-            if(Pref(requireContext()).city == null)
+            if (Pref(requireContext()).city == null)
                 tvCityChange.text = "Название города"
             else
                 tvCityChange.text = Pref(requireContext()).city.toString()
@@ -180,7 +180,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
 
     override fun onStart() {
         super.onStart()
-        if(callPhone){
+        if (callPhone) {
             screenViewModel.removeCallLog(idOrg)
             //вызываем bottomSheet для оценки вызова
             val fragment = ResultCallFragment.newInstance(idOrg)
@@ -242,25 +242,26 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
                     LocationServices.getFusedLocationProviderClient(requireContext())
                         .getCurrentLocation(LocationRequest.PRIORITY_LOW_POWER, null)
                         .addOnSuccessListener {
-                            screenViewModel.getOrg(it.latitude, it.longitude, requireContext())
-                            KCustomToast.infoToast(
-                                requireActivity(),
-                                "Координаты получены, город установлен",
-                                KCustomToast.GRAVITY_BOTTOM
-                            )
+                            screenViewModel.getOrg(
+                                it.latitude, it.longitude, requireContext()
+                            ) { city ->
+                                KCustomToast.infoToast(
+                                    requireActivity(),
+                                    "Город: $city установлен",
+                                    KCustomToast.GRAVITY_BOTTOM
+                                )
+                            }
                         }
                         .addOnCanceledListener { toast("Запрос локации был отменен") }
                         .addOnFailureListener { toast("Запрос локации завершился неудачно") }
                 }
-            }
-            else if(!getGPS()){
+            } else if (!getGPS()) {
                 KCustomToast.infoToast(
                     requireActivity(),
                     "Включите геолокацию, для определения города!",
                     KCustomToast.GRAVITY_CENTER
                 )
-            }
-            else {
+            } else {
                 requestPermissions(
                     arrayOf(
                         Manifest.permission.ACCESS_FINE_LOCATION
@@ -269,23 +270,20 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
                 )
             }
         } else {
-            if(Pref(requireContext()).city == null && !getGPS()){
+            if (Pref(requireContext()).city == null && !getGPS()) {
                 KCustomToast.infoToast(
                     requireActivity(),
                     "Включите геолокацию, для определения города!",
                     KCustomToast.GRAVITY_CENTER
                 )
                 tvInfoCity.text = "Включите геолокацию, для определения города!"
-            }
-            else if(Pref(requireContext()).city == null)
-            {
+            } else if (Pref(requireContext()).city == null) {
                 KCustomToast.infoToast(
                     requireActivity(),
                     "Нажмите на 'Название города'",
                     KCustomToast.GRAVITY_CENTER
                 )
-            }
-            else {
+            } else {
                 tvInfoCity.text = "Ваш город будет добавлен в ближайщее время"
                 screenViewModel.getOrg(Pref(requireContext()).city.toString())
                 removeContact()
@@ -293,14 +291,15 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
         }
     }
 
-    private fun getGPS() : Boolean {
+    private fun getGPS(): Boolean {
         val locationManager =
             requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
     }
 
-    private fun shareApp(org:OrganizationDaoEntity) {
-        val text = "${org.name} + ${Pref(requireContext()).city} уже в Едином городском справочнике такси. \nПриложение в Google Play: https://play.google.com/store/apps/details?id=com.anufriev.city"
+    private fun shareApp(org: OrganizationDaoEntity) {
+        val text =
+            "${org.name} + ${Pref(requireContext()).city} уже в Едином городском справочнике такси. \nПриложение в Google Play: https://play.google.com/store/apps/details?id=com.anufriev.city"
         val intent = Intent(Intent.ACTION_SEND).apply {
             putExtra(Intent.EXTRA_TEXT, text)
             type = "text/plain"
@@ -310,7 +309,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
         startActivity(shareIntent)
     }
 
-    private fun removeContact(){
+    private fun removeContact() {
         val isContactPermissionGranted = ActivityCompat.checkSelfPermission(
             requireContext(), Manifest.permission.READ_CONTACTS
         ) == PackageManager.PERMISSION_GRANTED
