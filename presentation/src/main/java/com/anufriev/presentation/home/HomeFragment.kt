@@ -8,6 +8,7 @@ import android.graphics.Color
 import android.location.LocationManager
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -24,8 +25,11 @@ import com.anufriev.utils.ext.observeLifeCycle
 import com.anufriev.utils.ext.setData
 import com.anufriev.utils.ext.show
 import com.anufriev.utils.platform.BaseFragment
+import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
+import com.google.firebase.messaging.FirebaseMessaging
 import com.hannesdorfmann.adapterdelegates4.ListDelegationAdapter
 import jp.wasabeef.recyclerview.animators.ScaleInAnimator
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -325,6 +329,18 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
             )
         }
     }
+
+    private fun checkGooglePlayServices(): Boolean {
+        val status = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(requireContext())
+        return if (status != ConnectionResult.SUCCESS) {
+            Log.e("", "Error")
+            false
+        } else {
+            Log.i("", "Google play services updated")
+            true
+        }
+    }
+
 
     companion object {
         private const val CODE_MAP = 1023;

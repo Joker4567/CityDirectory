@@ -89,4 +89,11 @@ dependencies {
     //RecyclerViewDelegates
     implementation "com.hannesdorfmann:adapterdelegates4-kotlin-dsl:4.3.0"
     implementation "com.hannesdorfmann:adapterdelegates4-kotlin-dsl-layoutcontainer:4.3.0"
+
+    //FCM
+    implementation "com.google.firebase:firebase-messaging-ktx:21.0.1"
+
+    //Retrofit
+    implementation "com.squareup.retrofit2:retrofit:2.9.0"
+    implementation "com.squareup.retrofit2:converter-gson:2.9.0"
 }

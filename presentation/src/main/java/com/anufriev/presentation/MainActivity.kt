@@ -3,13 +3,17 @@ package com.anufriev.presentation
 import android.content.Context
 import android.graphics.Rect
 import android.os.Bundle
+import android.util.Log
 import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.lifecycle.LiveData
 import androidx.navigation.NavController
+import com.anufriev.data.storage.Pref
 import com.anufriev.utils.ext.setupBottomWithNavController
 import com.anufriev.utils.platform.BaseActivity
+import com.google.firebase.iid.FirebaseInstanceId
+import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -20,13 +24,20 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
     override fun initInterface(savedInstanceState: Bundle?) {
         if (savedInstanceState == null) {
             setupBottomNavigationBar()
+            FirebaseInstanceId.getInstance().instanceId.addOnCompleteListener { task ->
+                if (!task.isSuccessful) {
+                    Log.e("FCM", "Error get token")
+                } else {
+                    Pref(applicationContext).tokenFCM = task.result.token
+                }
+            }
+            FirebaseMessaging.getInstance().subscribeToTopic("news")
         }
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
         setupBottomNavigationBar()
-
     }
 
     private fun setupBottomNavigationBar() {
@@ -58,5 +69,10 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
             }
         }
         return super.dispatchTouchEvent(event)
+    }
+
+    override fun onDestroy() {
+        FirebaseMessaging.getInstance().unsubscribeFromTopic("news")
+        super.onDestroy()
     }
 }

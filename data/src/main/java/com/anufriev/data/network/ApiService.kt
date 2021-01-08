@@ -3,6 +3,7 @@ package com.anufriev.data.network
 import com.anufriev.data.entity.FeedBack
 import com.anufriev.data.entity.GeoCity
 import com.anufriev.data.entity.Organization
+import com.anufriev.utils.services.CloudMessage
 import okhttp3.RequestBody
 import retrofit2.http.*
 
@@ -34,8 +35,9 @@ interface ApiService {
     //Production API f4fb9e447f9852a1f65edc1e8513aa988f4251c9
     @POST()
     @Headers(
-        "Authorization: Token f4fb9e447f9852a1f65edc1e8513aa988f4251c9",
-        "Content-Type: application/json")
+        "Authorization: Token eb78da4a7d0bb18dedb3eeadc9c144ca9f8e65ce",
+        "Content-Type:${CloudMessage.CONTENT_TYPE}"
+    )
     suspend fun getCity(
         @Url url:String,
         @Body body: RequestBody

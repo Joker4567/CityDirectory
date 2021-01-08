@@ -11,4 +11,9 @@ val repositoryModule = module {
         FeedBackRepositoryImp(get(), get(), get())
     }
     single { ContactRepository(get()) }
+
+    single<FirebaseRepository>(
+        createdAtStart = true,
+        override = true
+    ) { FirebaseRepositoryImp(get(), get()) }
 }

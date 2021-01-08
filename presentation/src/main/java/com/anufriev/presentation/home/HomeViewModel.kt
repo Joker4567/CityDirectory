@@ -12,6 +12,7 @@ import com.anufriev.data.storage.Pref
 import com.anufriev.utils.ext.getShortPhone
 import com.anufriev.utils.platform.BaseViewModel
 import com.anufriev.utils.platform.State
+import com.google.firebase.messaging.FirebaseMessaging
 
 class HomeViewModel(
     private val repository: OrganizationRepository,
@@ -28,11 +29,12 @@ class HomeViewModel(
 
     fun getOrg(lat: Double, lon: Double, context: Context, city:(String) -> Unit) {
         launchIO {
-            repository.getCity(lat, lon, {
+            repository.getCity(56.1089, 94.5869, {
                 if(it.suggestions.isNotEmpty()) {
                     val geoCity = it.suggestions.first().data.city
                     city.invoke(geoCity)
                     getOrg(geoCity)
+                    FirebaseMessaging.getInstance().unsubscribeFromTopic(Pref(context).city.toString())
                     Pref(context).city = geoCity
                 }
             }, ::error)

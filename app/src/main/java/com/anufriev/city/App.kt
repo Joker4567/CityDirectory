@@ -1,9 +1,14 @@
 package com.anufriev.city
 
 import android.app.Application
+import android.content.Context
 import android.util.Log
 import com.anufriev.city.di.module.*
+import com.anufriev.city.service.FirebaseService
+import com.anufriev.utils.services.CloudMessage.Companion.TOPIC
 import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.google.firebase.iid.FirebaseInstanceId
+import com.google.firebase.messaging.FirebaseMessaging
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -17,6 +22,11 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         mInstance = FirebaseCrashlytics.getInstance()
+        FirebaseService.sharedPref = getSharedPreferences("sharedPref", Context.MODE_PRIVATE)
+        FirebaseInstanceId.getInstance().instanceId.addOnSuccessListener {
+            FirebaseService.token = it.token
+        }
+        FirebaseMessaging.getInstance().subscribeToTopic(TOPIC)
         try {
             Thread
                 .setDefaultUncaughtExceptionHandler { thread: Thread, throwable: Throwable ->

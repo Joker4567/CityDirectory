@@ -32,6 +32,14 @@ class Pref(context: Context) {
             }
         }
 
+    var tokenFCM: String?
+        get() = sharedPreferences.getString(KEY_FCM, null)
+        set(value) {
+            sharedPreferences.edit {
+                putString(KEY_FCM, value)
+            }
+        }
+
     fun clearToken() {
         sharedPreferences.edit {
             remove(KEY_TOKEN)
@@ -44,9 +52,16 @@ class Pref(context: Context) {
         }
     }
 
+    fun clearFCM() {
+        sharedPreferences.edit {
+            remove(KEY_FCM)
+        }
+    }
+
     companion object {
         const val FILE_NAME = "CityPreference"
         const val KEY_TOKEN = "token"
         const val KEY_CITY = "city"
+        const val KEY_FCM = "firebaseCloudMessaging"
     }
 }

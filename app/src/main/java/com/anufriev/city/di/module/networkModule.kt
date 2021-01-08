@@ -9,6 +9,7 @@ import com.anufriev.data.network.interceptor.HeaderInterceptor
 import com.anufriev.data.network.interceptor.ValidationInterceptor
 import com.anufriev.data.storage.Pref
 import com.anufriev.city.BuildConfig
+import com.anufriev.data.network.NotificationAPI
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -37,6 +38,8 @@ val networkModule = module {
     single { provideApiService(get()) }
 
     single { buildJson() }
+
+    single { provideFirebaseApi(get()) }
 }
 
 fun provideCache(application: Application): Cache {
@@ -77,6 +80,8 @@ private fun provideHeaderInterceptor(pref: Pref) = HeaderInterceptor(pref)
 private fun provideValidationInterceptor(gson: Gson) = ValidationInterceptor(gson)
 
 private fun provideApiService(retrofit: Retrofit): ApiService = retrofit.create(ApiService::class.java)
+
+private fun provideFirebaseApi(retrofit: Retrofit): NotificationAPI = retrofit.create(NotificationAPI::class.java)
 
 private fun buildJson() = GsonBuilder().create()
 

@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">ВсёТакси</string>
     <string name="toast_error">Ошибка загрузки данных с сервера</string>
+    <string name="notification_channel_id">default</string>
 </resources>
