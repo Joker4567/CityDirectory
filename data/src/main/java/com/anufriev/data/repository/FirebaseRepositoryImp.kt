@@ -23,7 +23,7 @@ class FirebaseRepositoryImp(
 ) : BaseRepository(errorHandler = errorHandler), FirebaseRepository {
 
     override suspend fun postNotification(
-        city: String, org: String, idOrg: Int,
+        city: String, org: String, idOrg: Int, text:String,
         onSuccess: (Boolean) -> Unit,
         onState: (State) -> Unit
     ) {
@@ -32,17 +32,17 @@ class FirebaseRepositoryImp(
 //            val jsonObjectString = Gson().toJson(notification.toString())
 //            val requestBody = jsonObjectString.toRequestBody("application/json".toMediaTypeOrNull())
 //            api.postNotification(url,requestBody)
-
             val jPayload = JSONObject()
             val jNotification = JSONObject()
             val jData = JSONObject()
-            jNotification.put("title", "$city")
-            jNotification.put("body", "Получен отрицательный отзыв такси $org")
+            jNotification.put("title", "$org")
+            jNotification.put("body", "$text")
             jNotification.put("sound", "default")
             jNotification.put("badge", "1")
             jNotification.put("click_action", "OPEN_ACTIVITY_1")
             jNotification.put("icon", "ic_notification")
             jData.put("idOrg", idOrg)
+            jData.put("city",city)
             jPayload.put("to", "/topics/news")
             jPayload.put("priority", "high")
             jPayload.put("notification", jNotification)

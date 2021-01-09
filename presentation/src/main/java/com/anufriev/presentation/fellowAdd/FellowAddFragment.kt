@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.anufriev.data.storage.Pref
 import com.anufriev.presentation.R
 import com.anufriev.utils.common.KCustomToast
+import com.anufriev.utils.ext.isPhoneValid
 import com.anufriev.utils.ext.observeLifeCycle
 import com.anufriev.utils.platform.BaseFragment
 import kotlinx.android.synthetic.main.fragment_add_fellow.*
@@ -33,7 +34,8 @@ class FellowAddFragment : BaseFragment(R.layout.fragment_add_fellow) {
             router.routeToBack()
         }
         btAddFellow.setOnClickListener {
-            if(etMessagePeople.text.isNotEmpty() && etPhoneFellow.text.isNotEmpty()) {
+            if(etMessagePeople.text.isNotEmpty() && etPhoneFellow.text.isNotEmpty()
+                && etPhoneFellow.text.toString().isPhoneValid()) {
                 screenViewModel.addRecord(
                     etMessagePeople.text.toString().trim(),
                     Pref(requireContext()).city.toString(),

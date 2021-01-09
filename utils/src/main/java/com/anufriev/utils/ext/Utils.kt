@@ -1,5 +1,6 @@
 package com.anufriev.utils.ext
 
+import android.text.TextUtils
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -18,3 +19,7 @@ fun getShortPhone(number:String) : String {
         return numberClear.substring(1)
     return numberClear
 }
+
+fun String.isPhoneValid(): Boolean =
+    !TextUtils.isEmpty(this) && android.util.Patterns.PHONE.matcher(this)
+        .matches()

@@ -72,27 +72,29 @@ class FeedBackViewModel(
                 repository.getLastFeedBack(feedBacksArg.id, id)
             if (feedBackItem != null) {
                 if (System.currentTimeMillis() >= feedBackItem.time + 86400) {
-                    setFeedBackLocal(flag, text.trim(), getCurrentDateTime().toString("dd.MM.yyyy"), id)
+                    setFeedBackLocal(flag, text.trim(), getCurrentDateTime().toString("dd.MM.yyyy"), id, contentResolver)
                     if(!flag) pushNotification(
                         Pref(context).city.toString(),
                         feedBacksArg.name,
-                        feedBackItem.idOrg
+                        feedBackItem.idOrg,
+                        text
                     )
                 } else {
                     error.postValue("Ожидайте сутки, для добавления нового отзыва")
                 }
             } else {
-                setFeedBackLocal(flag, text.trim(), getCurrentDateTime().toString("dd.MM.yyyy"), id)
+                setFeedBackLocal(flag, text.trim(), getCurrentDateTime().toString("dd.MM.yyyy"), id, contentResolver)
                 if(!flag) pushNotification(
                     Pref(context).city.toString(),
-                    feedBacksArg.name
+                    feedBacksArg.name,
+                    0, text
                 )
             }
 
         }
     }
 
-    private fun setFeedBackLocal(flag: Boolean, text: String, date: String, imei:String) {
+    private fun setFeedBackLocal(flag: Boolean, text: String, date: String, imei:String, contentResolver:ContentResolver) {
         //Можем заносить данный отзыв
         launchIO {
             repository.setRatingReviews(
@@ -100,17 +102,18 @@ class FeedBackViewModel(
                 feedBacksArg.id, imei,
                 {
                     launchIO {
+                        val id: String = Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID)
                         repository.setFeedBackList(
                             listOf(it),
                             feedBacksArg.id,
-                            Settings.Secure.ANDROID_ID
+                            id
                         )
                         val list = repository.getFeedBackList(feedBacksArg.id)
                         launch {
                             feedBacks.postValue(list)
                         }
                         val feedBackLast =
-                            repository.getLastFeedBack(feedBacksArg.id, Settings.Secure.ANDROID_ID)
+                            repository.getLastFeedBack(feedBacksArg.id, id)
                         repository.updateFeedBack(
                             FeedBackDaoEntity(
                                 feedBackLast.id,
@@ -129,8 +132,8 @@ class FeedBackViewModel(
         }
     }
 
-    private fun pushNotification(city: String, org: String, idOrg: Int = 0) = launchIO {
-        firebaseApi.postNotification(city,org,idOrg,{
+    private fun pushNotification(city: String, org: String, idOrg: Int = 0, text:String) = launchIO {
+        firebaseApi.postNotification(city,org,idOrg, text,{
 
         }, {
 

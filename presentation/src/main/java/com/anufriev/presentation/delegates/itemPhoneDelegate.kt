@@ -10,6 +10,7 @@ fun itemPhoneList(
     adapterDelegateLayoutContainer<String, Any>(R.layout.item_phone_list) {
 
         containerView.imageViewPhone.setOnClickListener { callClick.invoke(item) }
+        containerView.tvPhoneItem.setOnClickListener { callClick.invoke(item) }
         bind {
             containerView.tvPhoneItem.text = item
         }

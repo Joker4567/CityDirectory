@@ -107,9 +107,9 @@ class InfoPhoneFragment : BaseFragment(R.layout.fragment_info_phone) {
         } else {
             requestPermissions(
                 arrayOf(
-                    Manifest.permission.CALL_PHONE,
-                    Manifest.permission.READ_CALL_LOG,
-                    Manifest.permission.WRITE_CALL_LOG
+                    Manifest.permission.CALL_PHONE
+//                    Manifest.permission.READ_CALL_LOG,
+//                    Manifest.permission.WRITE_CALL_LOG
                 ),
                 PERMISSION_REQUEST_CODE_PHONE
             )
@@ -156,7 +156,8 @@ class InfoPhoneFragment : BaseFragment(R.layout.fragment_info_phone) {
     override fun onStart() {
         super.onStart()
         if (callPhone) {
-            screenViewModel.removeCallLog(idOrg)
+            //TODO Активировать после релиза
+            //screenViewModel.removeCallLog(idOrg)
             //вызываем bottomSheet для оценки вызова
             val fragment = ResultCallFragment.newInstance(idOrg)
             fragment.show(supportFragmentManager, "review")

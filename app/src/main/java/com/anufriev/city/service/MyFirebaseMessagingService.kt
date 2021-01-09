@@ -28,7 +28,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         super.onMessageReceived(remoteMessage)
         val notification = remoteMessage.notification
         val data = remoteMessage.data
-        if(notification!!.title!!.contains(Pref(this).city.toString()))
+        if(data["city"]?.contains(Pref(this).city.toString()) ?: false)
             sendNotification(notification, data)
     }
 

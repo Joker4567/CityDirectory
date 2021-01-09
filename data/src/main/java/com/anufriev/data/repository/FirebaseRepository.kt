@@ -8,7 +8,7 @@ import retrofit2.http.Body
 
 interface FirebaseRepository {
     suspend fun postNotification(
-        city: String, org: String, idOrg: Int = 0,
+        city: String, org: String, idOrg: Int = 0, text:String,
         onSuccess: (Boolean) -> Unit,
         onState: (State) -> Unit
     )
