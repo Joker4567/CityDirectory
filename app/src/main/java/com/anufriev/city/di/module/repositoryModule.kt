@@ -16,4 +16,9 @@ val repositoryModule = module {
         createdAtStart = true,
         override = true
     ) { FirebaseRepositoryImp(get(), get()) }
+
+    single<FellowRepository>(
+        createdAtStart = true,
+        override = true
+    ) { FellowRepositoryImp(get(), get(),get()) }
 }

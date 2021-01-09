@@ -18,6 +18,7 @@ interface FeedBackRepository {
         text:String,
         date:String,
         idOrg:Int,
+        imei:String,
         onSuccess: (FeedBack) -> Unit,
         onState: (State) -> Unit
     )

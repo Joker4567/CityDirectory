@@ -9,5 +9,6 @@ object OrganizationContract {
         const val name = "name"
         const val phoneNumber = "phoneNumber"
         const val ratingGoodBad = "ratingGoodBad"
+        const val web = "web"
     }
 }

@@ -9,13 +9,13 @@ fun itemFeedBackList() =
     adapterDelegateLayoutContainer<FeedBackDaoEntity, Any>(R.layout.item_feedback_list) {
 
         bind {
-            containerView.tvDescriptionFeedBack.text = item.description
+            containerView.tvDescriptionFeedBack.text = item.description.trim()
             if(item.state) {
                 containerView.imageViewFeedBack.setImageResource(R.drawable.ic_round_thumb_up_alt_24)
             }
             else {
                 containerView.imageViewFeedBack.setImageResource(R.drawable.ic_baseline_thumb_down_alt_24)
             }
-            containerView.tvDate.text = item.date
+            containerView.tvDate.text = "Дата: ${item.date}, imei:${item.imei}"
         }
     }

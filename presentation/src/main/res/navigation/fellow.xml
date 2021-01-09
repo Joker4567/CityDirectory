@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/fellow"
+    app:startDestination="@id/fellowFragment">
+
+    <fragment
+        android:id="@+id/fellowFragment"
+        android:name="com.anufriev.presentation.fellow.FellowFragment"
+        android:label="FellowFragment" >
+        <action
+            android:id="@+id/action_fellowFragment_to_fellowAddFragment"
+            app:destination="@id/fellowAddFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/fellowAddFragment"
+        android:name="com.anufriev.presentation.fellowAdd.FellowAddFragment"
+        android:label="FellowAddFragment" />
+</navigation>

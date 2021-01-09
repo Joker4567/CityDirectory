@@ -14,11 +14,22 @@
         <action
             android:id="@+id/action_homeFragment_to_feedBackFragment"
             app:destination="@id/feedBackFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_infoPhoneFragment"
+            app:destination="@id/infoPhoneFragment" />
     </fragment>
     <fragment
         android:id="@+id/feedBackFragment"
         android:name="com.anufriev.presentation.feedBack.FeedBackFragment"
         android:label="FeedBackFragment" >
+        <argument
+            android:name="org"
+            app:argType="com.anufriev.data.db.entities.OrganizationDaoEntity" />
+    </fragment>
+    <fragment
+        android:id="@+id/infoPhoneFragment"
+        android:name="com.anufriev.presentation.infoPhone.InfoPhoneFragment"
+        android:label="InfoPhoneFragment" >
         <argument
             android:name="org"
             app:argType="com.anufriev.data.db.entities.OrganizationDaoEntity" />

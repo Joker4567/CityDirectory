@@ -25,7 +25,7 @@ class FeedBackFragment : BaseFragment(R.layout.fragment_feedback) {
     override val statusBarLightMode: Boolean = true
     override val setToolbar: Boolean = true
     override val setDisplayHomeAsUpEnabled: Boolean = true
-    override val screenViewModel by viewModel<FeedBackViewModel>{
+    override val screenViewModel by viewModel<FeedBackViewModel> {
         parametersOf(args.org)
     }
     private lateinit var router: FeedBackRouter
@@ -38,14 +38,18 @@ class FeedBackFragment : BaseFragment(R.layout.fragment_feedback) {
         setupRecyclerView()
     }
 
-    private fun bind(){
+    private fun bind() {
         (activity as AppCompatActivity).setSupportActionBar(toolbar)
         toolbar.setNavigationOnClickListener {
             router.backOrg()
         }
         btAddFeedBack.setOnClickListener {
-            if(editTextTextMultiLine.text.isNotEmpty()) {
-                screenViewModel.setFeedBack(true, editTextTextMultiLine.text.toString())
+            if (editTextTextMultiLine.text.isNotEmpty()) {
+                screenViewModel.setFeedBack(
+                    true,
+                    editTextTextMultiLine.text.toString(),
+                    contentResolver = requireContext().contentResolver
+                )
                 KCustomToast.infoToast(
                     requireActivity(),
                     "Отзыв успешно добавлен",
@@ -61,8 +65,11 @@ class FeedBackFragment : BaseFragment(R.layout.fragment_feedback) {
             }
         }
         btAddFeedBack2.setOnClickListener {
-            if(editTextTextMultiLine.text.isNotEmpty()) {
-                screenViewModel.setFeedBack(false, editTextTextMultiLine.text.toString())
+            if (editTextTextMultiLine.text.isNotEmpty()) {
+                screenViewModel.setFeedBack(
+                    false, editTextTextMultiLine.text.toString(),
+                    contentResolver = requireContext().contentResolver
+                )
                 KCustomToast.infoToast(
                     requireActivity(),
                     "Отзыв успешно добавлен",
@@ -78,14 +85,16 @@ class FeedBackFragment : BaseFragment(R.layout.fragment_feedback) {
             }
         }
         observeLifeCycle(screenViewModel.feedBacks, ::handleWorks)
-        observeLifeCycle(screenViewModel.error, { KCustomToast.infoToast(
-            requireActivity(),
-            it!!,
-            KCustomToast.GRAVITY_BOTTOM
-        ) })
+        observeLifeCycle(screenViewModel.error, {
+            KCustomToast.infoToast(
+                requireActivity(),
+                it!!,
+                KCustomToast.GRAVITY_BOTTOM
+            )
+        })
     }
 
-    private fun handleWorks(list: List<FeedBackDaoEntity>?){
+    private fun handleWorks(list: List<FeedBackDaoEntity>?) {
         list?.let {
             feedBackListAdapter.setData(list)
         }

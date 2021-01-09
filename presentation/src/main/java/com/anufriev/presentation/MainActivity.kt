@@ -42,7 +42,8 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
 
     private fun setupBottomNavigationBar() {
         val navGraphIds = listOf(
-            R.navigation.home
+            R.navigation.home,
+            R.navigation.fellow
         )
 
         val controller = bottom_nav.setupBottomWithNavController(

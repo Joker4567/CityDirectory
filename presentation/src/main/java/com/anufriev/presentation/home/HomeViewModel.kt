@@ -16,7 +16,6 @@ import com.google.firebase.messaging.FirebaseMessaging
 
 class HomeViewModel(
     private val repository: OrganizationRepository,
-    private val feedBackRepository: FeedBackRepository,
     private val contactRepository: ContactRepository
 ) : BaseViewModel() {
 
@@ -29,7 +28,7 @@ class HomeViewModel(
 
     fun getOrg(lat: Double, lon: Double, context: Context, city:(String) -> Unit) {
         launchIO {
-            repository.getCity(56.1089, 94.5869, {
+            repository.getCity(lat, lon, {
                 if(it.suggestions.isNotEmpty()) {
                     val geoCity = it.suggestions.first().data.city
                     city.invoke(geoCity)
@@ -69,19 +68,6 @@ class HomeViewModel(
                 listOrg.forEach { org ->
                     listContact.filter { contact -> contact.phones.contains(getShortPhone(org.phoneNumber)) }
                         .forEach { contactRepository.deleteContactById(it.id) }
-                }
-            }
-        }
-    }
-
-    fun removeCallLog(idOrg: Int) {
-        launchIO {
-            CityDatabase.instance.withTransaction {
-                val listOrg = repository.getOrganization().filter { x -> x.id == idOrg }
-                val listCall = contactRepository.getAllLogCall()
-                listOrg.forEach { org ->
-                    listCall.filter { contact -> contact.phones.contains(getShortPhone(org.phoneNumber)) }
-                        .forEach { contactRepository.deleteCallNumberById(it.id) }
                 }
             }
         }

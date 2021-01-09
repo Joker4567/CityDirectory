@@ -22,5 +22,7 @@ data class FeedBackDaoEntity(
     @ColumnInfo(name = FeedBackContract.Column.uid)
     val uid:String,
     @ColumnInfo(name = FeedBackContract.Column.date)
-    val date:String
+    val date:String,
+    @ColumnInfo(name = FeedBackContract.Column.imei)
+    val imei:String
 ):Serializable

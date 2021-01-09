@@ -10,5 +10,6 @@ object FeedBackContract {
         const val time = "time"
         const val uid = "uid"
         const val date = "date"
+        const val imei = "imei"
     }
 }

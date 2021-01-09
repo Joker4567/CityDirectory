@@ -22,9 +22,11 @@ data class OrganizationDaoEntity(
     @ColumnInfo(name = OrganizationContract.Column.description)
     val description:String,
     @ColumnInfo(name = OrganizationContract.Column.ratingGoodBad, defaultValue = "0/0")
-    var ratingGoodBad:String = "0/0"
+    var ratingGoodBad:String = "0/0",
+    @ColumnInfo(name = OrganizationContract.Column.web, defaultValue = "")
+    val web:String = ""
 ):Serializable {
     fun from() = Organization(
-        id, name, phoneNumber, rating, description, ratingGoodBad
+        id, name, phoneNumber, rating, description, ratingGoodBad, web
     )
 }

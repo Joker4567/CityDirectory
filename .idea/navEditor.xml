@@ -25,6 +25,40 @@
             </LayoutPositions>
           </value>
         </entry>
+        <entry key="fellow.xml">
+          <value>
+            <LayoutPositions>
+              <option name="myPositions">
+                <map>
+                  <entry key="fellowAddFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="340" />
+                            <option name="y" value="52" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="fellowFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="50" />
+                            <option name="y" value="50" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </LayoutPositions>
+          </value>
+        </entry>
         <entry key="home.xml">
           <value>
             <LayoutPositions>
@@ -63,13 +97,13 @@
                       </LayoutPositions>
                     </value>
                   </entry>
-                  <entry key="resultCallFragment">
+                  <entry key="infoPhoneFragment">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="301" />
-                            <option name="y" value="376" />
+                            <option name="x" value="10" />
+                            <option name="y" value="410" />
                           </Point>
                         </option>
                       </LayoutPositions>

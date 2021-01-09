@@ -5,4 +5,10 @@
         android:contentDescription="@string/tab_home"
         android:icon="@drawable/ic_home"
         android:title="@string/tab_home" />
+
+    <item
+        android:id="@+id/fellow"
+        android:contentDescription="@string/tab_fellow"
+        android:icon="@drawable/ic_home"
+        android:title="@string/tab_fellow" />
 </menu>

@@ -9,9 +9,11 @@ val roomModule = module {
     single { provideDatabase(get()) }
     single { orgListDao(get()) }
     single { feedBackListDao(get()) }
+    single { fellowListDao(get()) }
 }
 
 fun orgListDao(prospectorDatabase: CityDatabase) = prospectorDatabase.getOrg()
 fun feedBackListDao(prospectorDatabase: CityDatabase) = prospectorDatabase.getFeedBack()
+fun fellowListDao(prospectorDatabase: CityDatabase) = prospectorDatabase.getFellow()
 
 fun provideDatabase(context: Context) = CityDatabase.buildDataSource(context)

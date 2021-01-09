@@ -9,6 +9,7 @@
     android:backgroundTint="@color/colorLightGray"
     android:backgroundTintMode="multiply"
     android:foreground="?attr/selectableItemBackgroundBorderless"
+    android:padding="5dp"
     app:cardBackgroundColor="@color/colorLightGray"
     app:cardCornerRadius="@dimen/card_corner_radius"
     app:cardElevation="@dimen/card_elevation_2"
@@ -23,46 +24,32 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/tvDescriptionFeedBack"
+            android:id="@+id/tvTextPeople"
             style="@style/Text.14"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:gravity="start|top"
             android:textAlignment="viewStart"
             android:textSize="@dimen/text_feedback_size_sp"
-            app:layout_constraintBottom_toBottomOf="@+id/imageViewFeedBack"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/imageViewFeedBack"
-            app:layout_constraintTop_toTopOf="@+id/imageViewFeedBack"
-            tools:text="Text" />
-
-        <ImageView
-            android:id="@+id/imageViewFeedBack"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/tvDescriptionFeedBack"
-            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_baseline_thumb_down_alt_24" />
+            tools:text="Возьму попутчиков от гайвы до Губахи тел. 8 952 323 7092" />
 
         <TextView
-            android:id="@+id/tvDate"
+            android:id="@+id/tvDatePeople"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            android:textAlignment="viewStart"
-            android:textSize="@dimen/text_size_sp"
+            android:layout_marginBottom="4dp"
+            android:text="09.01.2021"
+            android:textSize="@dimen/text_desc_size_sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvDescriptionFeedBack"
-            tools:text="03.01.2021" />
+            app:layout_constraintEnd_toEndOf="@+id/tvTextPeople"
+            app:layout_constraintTop_toBottomOf="@+id/tvTextPeople" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

@@ -37,6 +37,7 @@ class FeedBackRepositoryImp(
         text:String,
         date:String,
         idOrg: Int,
+        imei:String,
         onSuccess: (FeedBack) -> Unit,
         onState: (State) -> Unit
     ) {
@@ -45,6 +46,7 @@ class FeedBackRepositoryImp(
             jsonObject.put("isPositive", flag)
             jsonObject.put("text", text)
             jsonObject.put("date",date)
+            jsonObject.put("imei",imei)
             val jsonObjectString = jsonObject.toString()
             val requestBody = jsonObjectString.toRequestBody("application/json".toMediaTypeOrNull())
 

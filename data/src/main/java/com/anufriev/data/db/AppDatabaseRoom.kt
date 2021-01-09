@@ -8,14 +8,17 @@ import androidx.room.TypeConverters
 import com.anufriev.data.db.CityDatabase.Companion.DATABASE_VERSION
 import com.anufriev.data.db.converter.*
 import com.anufriev.data.db.dao.FeedBackDao
+import com.anufriev.data.db.dao.FellowDao
 import com.anufriev.data.db.dao.OrganizationDao
 import com.anufriev.data.db.entities.FeedBackDaoEntity
+import com.anufriev.data.db.entities.FellowDaoEntity
 import com.anufriev.data.db.entities.OrganizationDaoEntity
 
 @Database(
     entities = [
         OrganizationDaoEntity::class,
-        FeedBackDaoEntity::class],
+        FeedBackDaoEntity::class,
+        FellowDaoEntity::class],
     version = DATABASE_VERSION
 )
 @TypeConverters(
@@ -26,14 +29,17 @@ abstract class CityDatabase : RoomDatabase() {
 
     abstract fun getOrg(): OrganizationDao
     abstract fun getFeedBack() : FeedBackDao
+    abstract fun getFellow() : FellowDao
+
     companion object {
         lateinit var instance: CityDatabase
             private set
-        const val DATABASE_VERSION = 2
+        const val DATABASE_VERSION = 3
         private const val DATABASE_NAME = "CityDB"
         fun buildDataSource(context: Context): CityDatabase {
             val room = Room.databaseBuilder(context, CityDatabase::class.java, DATABASE_NAME)
                 .addMigrations(MIGRATION_1_2)
+                .addMigrations(MIGRATION_2_3)
                 .build()
             instance = room
             return room
