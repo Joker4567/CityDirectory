@@ -37,6 +37,7 @@ class FellowRepositoryImp(
         city: String,
         date: String,
         description: String,
+        phone:String,
         onSuccess: (Fellow) -> Unit,
         onState: (State) -> Unit
     ) {
@@ -45,9 +46,9 @@ class FellowRepositoryImp(
             jsonObject.put("city", city)
             jsonObject.put("date", date)
             jsonObject.put("description", description)
+            jsonObject.put("phone", phone)
             val jsonObjectString = jsonObject.toString()
             val requestBody = jsonObjectString.toRequestBody("application/json".toMediaTypeOrNull())
-
             api.setFellow(city, requestBody)
         }
     }

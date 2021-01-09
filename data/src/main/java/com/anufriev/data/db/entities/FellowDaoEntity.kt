@@ -17,4 +17,6 @@ data class FellowDaoEntity(
     val description:String,
     @ColumnInfo(name = FellowContract.Column.date)
     val date:String,
+    @ColumnInfo(name = FellowContract.Column.phone)
+    val phone:String
 ):Serializable

@@ -1,14 +1,20 @@
 package com.anufriev.presentation.fellow
 
+import android.Manifest
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.anufriev.data.db.entities.FellowDaoEntity
 import com.anufriev.data.storage.Pref
 import com.anufriev.presentation.R
 import com.anufriev.presentation.delegates.itemFellowList
+import com.anufriev.presentation.infoPhone.InfoPhoneFragment
 import com.anufriev.utils.common.KCustomToast
 import com.anufriev.utils.ext.gone
 import com.anufriev.utils.ext.observeLifeCycle
@@ -39,7 +45,9 @@ class FellowFragment : BaseFragment(R.layout.fragment_fellow) {
 
     private val fellowListAdapter by lazy {
         ListDelegationAdapter(
-            itemFellowList()
+            itemFellowList {
+                callPhone(it)
+            }
         )
     }
 
@@ -86,5 +94,56 @@ class FellowFragment : BaseFragment(R.layout.fragment_fellow) {
         fellows?.let {
             fellowListAdapter.setData(fellows)
         }
+    }
+
+    private fun callPhone(phone: String) {
+        val isCallPhonePermissionGranted = ActivityCompat.checkSelfPermission(
+            requireContext(), Manifest.permission.CALL_PHONE
+        ) == PackageManager.PERMISSION_GRANTED
+        if (isCallPhonePermissionGranted) {
+            val intent = Intent(Intent.ACTION_CALL)
+            intent.data = Uri.parse("tel:$phone")
+            startActivityForResult(intent, RESULT_CODE_PHONE)
+        } else {
+            requestPermissions(
+                arrayOf(
+                    Manifest.permission.CALL_PHONE
+                ),
+                PERMISSION_REQUEST_CODE_PHONE
+            )
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        if (requestCode == PERMISSION_REQUEST_CODE_PHONE) {
+            if (grantResults.all { it == PackageManager.PERMISSION_GRANTED }) {
+                KCustomToast.infoToast(
+                    requireActivity(),
+                    "Нажмите повторно на вызов",
+                    KCustomToast.GRAVITY_BOTTOM
+                )
+            } else {
+                val needRationale = ActivityCompat.shouldShowRequestPermissionRationale(
+                    requireActivity(),
+                    Manifest.permission.CALL_PHONE
+                )
+                if (needRationale) {
+                    KCustomToast.infoToast(
+                        requireActivity(),
+                        "Для осуществления звонка, необходимо разрешение",
+                        KCustomToast.GRAVITY_BOTTOM
+                    )
+                }
+            }
+        }
+    }
+
+    companion object {
+        private const val RESULT_CODE_PHONE = 4213
+        private const val PERMISSION_REQUEST_CODE_PHONE = 4313
     }
 }

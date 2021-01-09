@@ -33,15 +33,16 @@ class FellowAddFragment : BaseFragment(R.layout.fragment_add_fellow) {
             router.routeToBack()
         }
         btAddFellow.setOnClickListener {
-            if(etMessagePeople.text.isNotEmpty()) {
+            if(etMessagePeople.text.isNotEmpty() && etPhoneFellow.text.isNotEmpty()) {
                 screenViewModel.addRecord(
                     etMessagePeople.text.toString().trim(),
-                    Pref(requireContext()).city.toString()
+                    Pref(requireContext()).city.toString(),
+                    etPhoneFellow.text.toString().trim()
                 )
             } else {
                 KCustomToast.infoToast(
                     requireActivity(),
-                    "Введите сообщение",
+                    "Не все поля были заполнены",
                     KCustomToast.GRAVITY_BOTTOM
                 )
             }

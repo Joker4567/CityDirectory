@@ -15,16 +15,23 @@ class FellowAddViewModel(
 
     val success = MutableLiveData<String>()
 
-    fun addRecord(text: String, city: String) {
+    fun addRecord(text: String, city: String, phone: String) {
         launchIO {
-            repository.setFellow(city, getCurrentDateTime().toString("dd.MM.yyyy"), text, {
-                launchIO {
-                    CityDatabase.instance.withTransaction {
-                        repository.setFellowList(listOf(it))
-                        success.postValue("Запись успешно добавлена")
+            repository.setFellow(
+                city,
+                getCurrentDateTime().toString("dd.MM.yyyy hh:mm"),
+                text,
+                phone,
+                {
+                    launchIO {
+                        CityDatabase.instance.withTransaction {
+                            repository.setFellowList(listOf(it))
+                            success.postValue("Запись успешно добавлена")
+                        }
                     }
-                }
-            }, ::handleState)
+                },
+                ::handleState
+            )
         }
     }
 }

@@ -56,5 +56,5 @@ interface ApiService {
     suspend fun setFellow(
         @Path("city") city:String,
         @Body body: RequestBody
-    ):Fellow
+    ) : Fellow
 }

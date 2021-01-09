@@ -7,5 +7,6 @@ object FellowContract {
         const val city = "city"
         const val description = "description"
         const val date = "date"
+        const val phone = "phone"
     }
 }

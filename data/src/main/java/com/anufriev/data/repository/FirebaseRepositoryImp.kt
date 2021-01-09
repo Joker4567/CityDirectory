@@ -37,7 +37,7 @@ class FirebaseRepositoryImp(
             val jNotification = JSONObject()
             val jData = JSONObject()
             jNotification.put("title", "$city")
-            jNotification.put("body", "Рейтинг организации $org был понижен")
+            jNotification.put("body", "Получен отрицательный отзыв такси $org")
             jNotification.put("sound", "default")
             jNotification.put("badge", "1")
             jNotification.put("click_action", "OPEN_ACTIVITY_1")

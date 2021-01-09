@@ -30,25 +30,50 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="4dp"
             android:textAlignment="viewStart"
             android:textSize="@dimen/text_feedback_size_sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintEnd_toStartOf="@+id/ivPhoneFellow"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="Возьму попутчиков от гайвы до Губахи тел. 8 952 323 7092" />
+            tools:text="Возьму попутчиков еду в Губаху на выходные с 11 по 15" />
 
         <TextView
             android:id="@+id/tvDatePeople"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="8dp"
             android:text="09.01.2021"
             android:textSize="@dimen/text_desc_size_sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/tvTextPeople"
             app:layout_constraintTop_toBottomOf="@+id/tvTextPeople" />
+
+        <ImageView
+            android:id="@+id/ivPhoneFellow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_phone_24" />
+
+        <TextView
+            android:id="@+id/tvPhoneFellow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="8dp"
+            android:textSize="@dimen/text_desc_size_sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvTextPeople"
+            tools:text="+7 959 202 2536" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -16,6 +16,7 @@ interface FellowRepository {
         city:String,
         date:String,
         description:String,
+        phone:String,
         onSuccess: (Fellow) -> Unit,
         onState: (State) -> Unit
     )
