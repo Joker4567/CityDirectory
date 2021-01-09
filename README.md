@@ -15,6 +15,8 @@
 * Room
 * Jetpack Navigation
 * Content provider (телефонная книга, журнал вызовов)
+* Service
+* Firebase Cloud Messaging
 
 ## Google play
 
