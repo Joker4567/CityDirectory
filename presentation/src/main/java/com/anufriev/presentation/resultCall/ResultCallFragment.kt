@@ -1,6 +1,7 @@
 package com.anufriev.presentation.resultCall
 
 import android.os.Bundle
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -37,7 +38,7 @@ class ResultCallFragment() : BottomSheetDialogFragment() {
             idOrg = requireArguments().getInt(ID_ORG)
         }
         imageViewPositive.setOnClickListener {
-            screenViewModel.setRating(true, idOrg)
+            screenViewModel.getRatingPhoneCall(true, idOrg, getUID())
             KCustomToast.infoToast(
                 requireActivity(),
                 "Отлично! Рейтинг организации увеличен.",
@@ -47,7 +48,7 @@ class ResultCallFragment() : BottomSheetDialogFragment() {
             requireActivity().finish()
         }
         imageViewNegative.setOnClickListener {
-            screenViewModel.setRating(false, idOrg)
+            screenViewModel.getRatingPhoneCall(true, idOrg, getUID())
             KCustomToast.infoToast(
                 requireActivity(),
                 "Рейтинг организации занижен! Звоним в другую.",
@@ -57,13 +58,19 @@ class ResultCallFragment() : BottomSheetDialogFragment() {
         }
     }
 
+    private fun getUID() : String = Settings.Secure.getString(
+        requireContext().contentResolver,
+        Settings.Secure.ANDROID_ID
+    )
+
     companion object {
-        fun newInstance(idOrg:Int): ResultCallFragment =
+        fun newInstance(idOrg: Int): ResultCallFragment =
             ResultCallFragment().apply {
                 arguments = Bundle().apply {
                     putInt(ID_ORG, idOrg)
                 }
             }
+
         const val ID_ORG = "ID_ORG"
     }
 }

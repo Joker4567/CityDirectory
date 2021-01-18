@@ -20,5 +20,10 @@ val repositoryModule = module {
     single<FellowRepository>(
         createdAtStart = true,
         override = true
-    ) { FellowRepositoryImp(get(), get(),get()) }
+    ) { FellowRepositoryImp(get(), get(), get()) }
+
+    single<PhoneCallRepository>(
+        createdAtStart = true,
+        override = true
+    ) { PhoneCallRepositoryImp(get()) }
 }
