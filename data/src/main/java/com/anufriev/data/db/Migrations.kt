@@ -27,3 +27,10 @@ val MIGRATE_3_4 = object : Migration(3,4) {
     }
 
 }
+val MIGRATE_4_5 = object : Migration(4,5) {
+    override fun migrate(database: SupportSQLiteDatabase) {
+        database.execSQL("DROP TABLE `${PhoneCallContract.tableName}`")
+        database.execSQL("CREATE TABLE IF NOT EXISTS `${PhoneCallContract.tableName}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `time` INTEGER NOT NULL, `uid` TEXT NOT NULL, `idOrg` INTEGER NOT NULL)\n")
+    }
+
+}

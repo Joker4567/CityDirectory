@@ -13,39 +13,29 @@ class ResultCallViewModel(
     private val local: PhoneCallRepository
 ) : BaseViewModel() {
 
-    private fun setRating(flag: Boolean, id: Int) {
-        launchIO {
-            repository.setRating(id, flag, {
-                Log.d("Rating", "Рейтинг организации успешно изменён")
-            }, ::handleState)
-        }
-    }
-
     fun getRatingPhoneCall(flag: Boolean, idOrg: Int, uid: String) {
         launchIO {
             val result = local.getPhoneCallLast(uid, idOrg)
             if (result != null) {
                 //Сравниваем по времени
-                if (System.currentTimeMillis() >= result.time + 86400)
+                if (System.currentTimeMillis()/1000L >= result.time + 86400)
                 {
                     setRatingPhoneCall(
-                        System.currentTimeMillis(),
-                        uid, idOrg
+                        System.currentTimeMillis()/1000L,
+                        uid, idOrg, flag
                     )
-                    setRating(flag, idOrg)
                 }
             } else {
                 //добавляем отзыв
                 setRatingPhoneCall(
-                    System.currentTimeMillis(),
-                    uid, idOrg
+                    System.currentTimeMillis()/1000L,
+                    uid, idOrg, flag
                 )
-                setRating(flag, idOrg)
             }
         }
     }
 
-    private fun setRatingPhoneCall(time: Long, uid: String, idOrg: Int) {
+    private fun setRatingPhoneCall(time: Long, uid: String, idOrg: Int, flag: Boolean) {
         launchIO {
             CityDatabase.instance.withTransaction {
                 local.setPhoneCallList(
@@ -55,6 +45,9 @@ class ResultCallViewModel(
                         )
                     )
                 )
+                repository.setRating(idOrg, flag, {
+                    Log.d("Rating", "Рейтинг организации успешно изменён")
+                }, ::handleState)
             }
         }
     }

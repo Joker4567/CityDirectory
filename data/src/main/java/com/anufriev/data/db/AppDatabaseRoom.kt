@@ -39,12 +39,14 @@ abstract class CityDatabase : RoomDatabase() {
     companion object {
         lateinit var instance: CityDatabase
             private set
-        const val DATABASE_VERSION = 4
+        const val DATABASE_VERSION = 5
         private const val DATABASE_NAME = "CityDB"
         fun buildDataSource(context: Context): CityDatabase {
             val room = Room.databaseBuilder(context, CityDatabase::class.java, DATABASE_NAME)
                 .addMigrations(MIGRATION_1_2)
                 .addMigrations(MIGRATION_2_3)
+                .addMigrations(MIGRATE_3_4)
+                .addMigrations(MIGRATE_4_5)
                 .build()
             instance = room
             return room

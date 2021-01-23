@@ -7,7 +7,7 @@ import com.anufriev.data.db.contract.PhoneCallContract
 
 @Entity(tableName = PhoneCallContract.tableName)
 data class PhoneCallDaoEntity(
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = PhoneCallContract.Column.id)
     val id:Int,
     @ColumnInfo(name = PhoneCallContract.Column.time)
