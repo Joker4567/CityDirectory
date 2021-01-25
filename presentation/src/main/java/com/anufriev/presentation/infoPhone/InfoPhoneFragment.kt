@@ -3,11 +3,13 @@ package com.anufriev.presentation.infoPhone
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.anufriev.data.db.entities.FeedBackDaoEntity
@@ -18,8 +20,10 @@ import com.anufriev.presentation.delegates.itemPhoneList
 import com.anufriev.presentation.home.HomeFragment
 import com.anufriev.presentation.resultCall.ResultCallFragment
 import com.anufriev.utils.common.KCustomToast
+import com.anufriev.utils.ext.goToPhoneDial
 import com.anufriev.utils.ext.observeLifeCycle
 import com.anufriev.utils.ext.setData
+import com.anufriev.utils.ext.setupLink
 import com.anufriev.utils.platform.BaseFragment
 import com.hannesdorfmann.adapterdelegates4.ListDelegationAdapter
 import jp.wasabeef.recyclerview.animators.ScaleInAnimator
@@ -37,7 +41,7 @@ class InfoPhoneFragment : BaseFragment(R.layout.fragment_info_phone) {
     override val statusBarLightMode: Boolean = true
     override val setToolbar: Boolean = true
     override val setDisplayHomeAsUpEnabled: Boolean = true
-    override val screenViewModel by viewModel<InfoPhoneViewModel>{
+    override val screenViewModel by viewModel<InfoPhoneViewModel> {
         parametersOf(args.org)
     }
     private lateinit var router: InfoPhoneRouter
@@ -50,28 +54,37 @@ class InfoPhoneFragment : BaseFragment(R.layout.fragment_info_phone) {
         setupRecyclerView()
     }
 
-    private fun bind(){
+    private fun bind() {
         (activity as AppCompatActivity).setSupportActionBar(toolbar)
         toolbar.setNavigationOnClickListener {
             router.backOrg()
         }
         observeLifeCycle(screenViewModel.phoneList, ::handlePhone)
-        infoTxtWeb.text = "Сайт: ${args.org.web}"
-        infoTxtWeb.setOnClickListener {
-            try {
-                val i = Intent(Intent.ACTION_VIEW, Uri.parse(args.org.web))
-                startActivity(i)
-            } catch (ex:Exception){
-                KCustomToast.infoToast(
-                    requireActivity(),
-                    "Ошибка открытия ссылки",
-                    KCustomToast.GRAVITY_BOTTOM
-                )
-            }
+        val normalColor = ContextCompat.getColor(requireContext(), R.color.colorPaleText)
+        val pressedColor = ContextCompat.getColor(requireContext(), R.color.colorLightHint)
+        infoTxtWeb.setupLink(
+            "Сайт: ${args.org.web}",
+            args.org.web,
+            normalColor,
+            pressedColor) {
+            openUrl(args.org.web)
         }
     }
 
-    private fun handlePhone(list: List<String>?){
+    private fun openUrl(url: String) {
+        try {
+            val i = Intent(Intent.ACTION_VIEW, Uri.parse(args.org.web))
+            startActivity(i)
+        } catch (ex: Exception) {
+            KCustomToast.infoToast(
+                requireActivity(),
+                "Ошибка открытия ссылки",
+                KCustomToast.GRAVITY_BOTTOM
+            )
+        }
+    }
+
+    private fun handlePhone(list: List<String>?) {
         list?.let {
             phoneListAdapter.setData(list)
         }
@@ -101,9 +114,7 @@ class InfoPhoneFragment : BaseFragment(R.layout.fragment_info_phone) {
         ) == PackageManager.PERMISSION_GRANTED
         if (isCallPhonePermissionGranted) {
             idOrg = args.org.id
-            val intent = Intent(Intent.ACTION_CALL)
-            intent.data = Uri.parse("tel:$phone")
-            startActivityForResult(intent, RESULT_CODE_PHONE)
+            requireContext().goToPhoneDial(phone, RESULT_CODE_PHONE, requireParentFragment())
         } else {
             requestPermissions(
                 arrayOf(

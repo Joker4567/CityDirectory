@@ -1,6 +1,7 @@
 package com.anufriev.utils.ext
 
 import android.text.Editable
+import android.text.SpannableStringBuilder
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
@@ -8,7 +9,10 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.EditText
 import android.widget.Spinner
+import android.widget.TextView
 import androidx.annotation.LayoutRes
+import com.anufriev.utils.common.LinkTouchMovementMethod
+import com.anufriev.utils.common.TouchableSpan
 
 fun View.show() = run { visibility = View.VISIBLE }
 
@@ -49,4 +53,31 @@ fun Spinner.onItemSelected(emptyVoid: (String) -> Unit) {
             emptyVoid.invoke(parent?.getItemAtPosition(position).toString())
         }
     }
+}
+
+//TextView -> ссылка. Например: ссылка на сайт или ссылка на октрытие чего-либо
+inline fun TextView.setupLink(
+    text: String,
+    link: String,
+    normalColor: Int,
+    pressedColor: Int,
+    crossinline func: () -> Unit
+) {
+
+    if (!text.contains(link) || text.isEmpty() || link.isEmpty()) {
+        this.text = text
+        return
+    }
+
+    val ssb = SpannableStringBuilder(text)
+
+    val startIndex = text.indexOf(link)
+    val lastIndex = startIndex + link.length
+
+    ssb.setSpan(object : TouchableSpan(normalColor, pressedColor) {
+        override fun onClick(view: View) = func.invoke()
+    }, startIndex, lastIndex, 0)
+
+    this.movementMethod = LinkTouchMovementMethod()
+    this.text = ssb
 }
