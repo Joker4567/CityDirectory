@@ -6,6 +6,15 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
+    <include
+        layout="@layout/layout_progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         style="@style/Toolbar"
@@ -23,13 +32,15 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvPhone"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="0dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="24dp"
+        android:layout_marginBottom="24dp"
         android:layout_weight="1"
         android:clipToPadding="false"
         android:padding="@dimen/default_margin_6"
+        app:layout_constraintBottom_toTopOf="@+id/infoTxtWeb"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
@@ -41,14 +52,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:layout_marginTop="24dp"
-        android:autoLink="web"
+        android:layout_marginBottom="24dp"
         android:linksClickable="true"
-        android:text="Сайт: url"
         android:textAlignment="textStart"
         android:textSize="@dimen/text_feedback_size_sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/rvPhone"
         app:layout_constraintStart_toStartOf="@+id/rvPhone"
-        app:layout_constraintTop_toBottomOf="@+id/rvPhone"></TextView>
+        tools:text="Сайт: url"></TextView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

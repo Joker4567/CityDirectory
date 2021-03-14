@@ -31,4 +31,12 @@ interface OrganizationRepository {
         onState: (State) -> Unit)
 
     suspend fun deleteAllOrg()
+
+    suspend fun checkPhoneDriver (
+        idOrg:Int,
+        lat:Double,
+        lon:Double,
+        onSuccess: (String) -> Unit,
+        onState: (State) -> Unit
+    )
 }

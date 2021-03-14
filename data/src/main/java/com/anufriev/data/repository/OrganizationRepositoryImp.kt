@@ -76,4 +76,18 @@ class OrganizationRepositoryImp(
             } catch (ex:KotlinNullPointerException){ emptyList<Organization>() }
         }
     }
+
+    override suspend fun checkPhoneDriver(
+        idOrg:Int,
+        lat: Double,
+        lon: Double,
+        onSuccess: (String) -> Unit,
+        onState: (State) -> Unit
+    ) {
+        execute(onSuccess = onSuccess, onState = onState){
+            val jsonObjectString = "{ \"PointLatitude\": ${lat}, \"PointLongitude\": $lon }"
+            val requestBody = jsonObjectString.toRequestBody("application/json".toMediaTypeOrNull())
+            api.getPhoneDriver(idOrg,requestBody)
+        }
+    }
 }

@@ -26,14 +26,15 @@ class HomeViewModel(
         //при обновлении swipeRefresh апршиваем новые данные из сети
     }
 
-    fun getOrg(lat: Double, lon: Double, context: Context, city:(String) -> Unit) {
+    fun getOrg(lat: Double, lon: Double, context: Context, city: (String) -> Unit) {
         launchIO {
             repository.getCity(lat, lon, {
-                if(it.suggestions.isNotEmpty()) {
+                if (it.suggestions.isNotEmpty()) {
                     val geoCity = it.suggestions.first().data.city
                     city.invoke(geoCity)
                     getOrg(geoCity)
-                    FirebaseMessaging.getInstance().unsubscribeFromTopic(Pref(context).city.toString())
+                    FirebaseMessaging.getInstance()
+                        .unsubscribeFromTopic(Pref(context).city.toString())
                     Pref(context).city = geoCity
                 }
             }, ::error)

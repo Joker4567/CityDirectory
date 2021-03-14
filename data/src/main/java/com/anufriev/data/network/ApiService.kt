@@ -57,4 +57,10 @@ interface ApiService {
         @Path("city") city:String,
         @Body body: RequestBody
     ) : Fellow
+    //Получить телефон водителя ближайщего, иначе телефон id организации
+    @POST("api/organizations/{id}/phone")
+    suspend fun getPhoneDriver(
+        @Path("id") id:Int,
+        @Body body: RequestBody
+    ) : String
 }

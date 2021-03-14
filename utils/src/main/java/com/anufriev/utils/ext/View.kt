@@ -11,8 +11,6 @@ import android.widget.EditText
 import android.widget.Spinner
 import android.widget.TextView
 import androidx.annotation.LayoutRes
-import com.anufriev.utils.common.LinkTouchMovementMethod
-import com.anufriev.utils.common.TouchableSpan
 
 fun View.show() = run { visibility = View.VISIBLE }
 
@@ -74,10 +72,5 @@ inline fun TextView.setupLink(
     val startIndex = text.indexOf(link)
     val lastIndex = startIndex + link.length
 
-    ssb.setSpan(object : TouchableSpan(normalColor, pressedColor) {
-        override fun onClick(view: View) = func.invoke()
-    }, startIndex, lastIndex, 0)
 
-    this.movementMethod = LinkTouchMovementMethod()
-    this.text = ssb
 }

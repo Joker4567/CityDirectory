@@ -20,10 +20,7 @@ import com.anufriev.presentation.delegates.itemOrgList
 import com.anufriev.presentation.infoCompany.InfoCompanyFragment
 import com.anufriev.presentation.resultCall.ResultCallFragment
 import com.anufriev.utils.common.KCustomToast
-import com.anufriev.utils.ext.gone
-import com.anufriev.utils.ext.observeLifeCycle
-import com.anufriev.utils.ext.setData
-import com.anufriev.utils.ext.show
+import com.anufriev.utils.ext.*
 import com.anufriev.utils.platform.BaseFragment
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
@@ -110,7 +107,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
         tvCityChange.setOnClickListener {
             //Запрос на смену города
             getGeo()
-            if (getGPS())
+            if (getGPS(requireContext()))
                 KCustomToast.infoToast(
                     requireActivity(),
                     "Отправлен запрос на смену города",
@@ -178,7 +175,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
             val isLocationPermissionGranted = ActivityCompat.checkSelfPermission(
                 requireContext(), Manifest.permission.ACCESS_FINE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED
-            if (isLocationPermissionGranted && getGPS()) {
+            if (isLocationPermissionGranted && getGPS(requireContext())) {
                 CoroutineScope(Dispatchers.IO).launch {
                     LocationServices.getFusedLocationProviderClient(requireContext())
                         .getCurrentLocation(LocationRequest.PRIORITY_LOW_POWER, null)
@@ -196,7 +193,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
                         .addOnCanceledListener { toast("Запрос локации был отменен") }
                         .addOnFailureListener { toast("Запрос локации завершился неудачно") }
                 }
-            } else if (!getGPS()) {
+            } else if (!getGPS(requireContext())) {
                 KCustomToast.infoToast(
                     requireActivity(),
                     "Включите геолокацию, для определения города!",
@@ -211,7 +208,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
                 )
             }
         } else {
-            if (Pref(requireContext()).city == null && !getGPS()) {
+            if (Pref(requireContext()).city == null && !getGPS(requireContext())) {
                 KCustomToast.infoToast(
                     requireActivity(),
                     "Включите геолокацию, для определения города!",
@@ -230,12 +227,6 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
                 removeContact()
             }
         }
-    }
-
-    private fun getGPS(): Boolean {
-        val locationManager =
-            requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
     }
 
     private fun shareApp(org: OrganizationDaoEntity) {
