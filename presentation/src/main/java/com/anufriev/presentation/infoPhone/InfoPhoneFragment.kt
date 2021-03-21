@@ -1,23 +1,21 @@
 package com.anufriev.presentation.infoPhone
 
 import android.Manifest
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.anufriev.data.db.entities.FeedBackDaoEntity
-import com.anufriev.data.db.entities.OrganizationDaoEntity
 import com.anufriev.presentation.R
-import com.anufriev.presentation.delegates.itemFeedBackList
 import com.anufriev.presentation.delegates.itemPhoneList
-import com.anufriev.presentation.home.HomeFragment
 import com.anufriev.presentation.resultCall.ResultCallFragment
 import com.anufriev.utils.common.KCustomToast
 import com.anufriev.utils.ext.*
@@ -27,7 +25,6 @@ import com.google.android.gms.location.LocationServices
 import com.hannesdorfmann.adapterdelegates4.ListDelegationAdapter
 import jp.wasabeef.recyclerview.animators.ScaleInAnimator
 import kotlinx.android.synthetic.main.fragment_feedback.*
-import kotlinx.android.synthetic.main.fragment_feedback.rvFeedBack
 import kotlinx.android.synthetic.main.fragment_feedback.toolbar
 import kotlinx.android.synthetic.main.fragment_info_phone.*
 import kotlinx.coroutines.CoroutineScope
@@ -36,7 +33,7 @@ import kotlinx.coroutines.launch
 import org.jetbrains.anko.support.v4.toast
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
-import java.lang.Exception
+
 
 class InfoPhoneFragment : BaseFragment(R.layout.fragment_info_phone) {
     override var toolbarTitle: String = "Контакты"
@@ -72,7 +69,8 @@ class InfoPhoneFragment : BaseFragment(R.layout.fragment_info_phone) {
             "Сайт: ${args.org.web}",
             args.org.web,
             normalColor,
-            pressedColor) {
+            pressedColor
+        ) {
             openUrl(args.org.web)
         }
     }
@@ -125,10 +123,22 @@ class InfoPhoneFragment : BaseFragment(R.layout.fragment_info_phone) {
                     LocationServices.getFusedLocationProviderClient(requireContext())
                         .getCurrentLocation(LocationRequest.PRIORITY_LOW_POWER, null)
                         .addOnSuccessListener {
-                            if(it != null)
-                                screenViewModel.checkPhoneDriver(idOrg, phone,it.latitude, it.longitude)
+                            if(it != null) {
+                                createAlertDialog(phone) {
+                                    screenViewModel.checkPhoneDriver(
+                                        idOrg,
+                                        phone,
+                                        it.latitude,
+                                        it.longitude
+                                    )
+                                }
+                            }
                             else
-                                requireContext().goToPhoneDial(phone, RESULT_CODE_PHONE, requireParentFragment())
+                                requireContext().goToPhoneDial(
+                                    phone,
+                                    RESULT_CODE_PHONE,
+                                    requireParentFragment()
+                                )
                         }
                         .addOnCanceledListener { toast("Запрос локации был отменен") }
                         .addOnFailureListener { toast("Запрос локации завершился неудачно") }
@@ -152,6 +162,36 @@ class InfoPhoneFragment : BaseFragment(R.layout.fragment_info_phone) {
                 PERMISSION_REQUEST_CODE_PHONE
             )
         }
+    }
+
+    private fun createAlertDialog(phone:String = "", mainVieModel:() -> Unit){
+        val title = "Найти ближайщего водителя ?"
+        val message = "В случае если водителей не будет на линии, звонок будет переведён на выбранный вами ранее номер."
+        val button1String = "Да"
+        val button2String = "Нет"
+
+        val ad: android.app.AlertDialog.Builder = android.app.AlertDialog.Builder(context)
+        ad.setTitle(title) // заголовок
+
+        ad.setMessage(message) // сообщение
+
+        ad.setPositiveButton(button1String
+        ) { _, _ ->
+            mainVieModel.invoke()
+        }
+        ad.setNegativeButton(button2String
+        ) { _, _ ->
+            requireContext().goToPhoneDial(
+                phone,
+                RESULT_CODE_PHONE,
+                requireParentFragment()
+            )
+        }
+        ad.setCancelable(true)
+        ad.setOnCancelListener {
+            toast("Звонок был отменён клиентом")
+        }
+        ad.show()
     }
 
     private var idOrg: Int = 0
