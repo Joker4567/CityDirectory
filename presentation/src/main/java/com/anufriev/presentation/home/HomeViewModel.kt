@@ -28,7 +28,7 @@ class HomeViewModel(
 
     fun getOrg(lat: Double, lon: Double, context: Context, city: (String) -> Unit) {
         launchIO {
-            repository.getCity(56.113246, 94.589006, {
+            repository.getCity(lat, lon, {
                 if (it.suggestions.isNotEmpty()) {
                     val geoCity = it.suggestions.first().data.city
                     city.invoke(geoCity)

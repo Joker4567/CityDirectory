@@ -17,8 +17,9 @@ class InfoPhoneViewModel(
     private val contactRepository: ContactRepository
 ) : BaseViewModel() {
     var phoneList = MutableLiveData<List<String>>()
-    var phoneDriver = MutableLiveData<String>()
-
+    var phoneDriver = MutableLiveData<Boolean>()
+    var _phoneDriver = ""
+    var _phone = ""
     init {
         initPhone()
     }
@@ -45,9 +46,11 @@ class InfoPhoneViewModel(
         launchIO {
             repository.checkPhoneDriver(idOrg, lat, lon, {
                 if (it.contains(phone, ignoreCase = true)) {
-                    phoneDriver.postValue(phone)
+                    _phone = phone
+                    phoneDriver.postValue(false)
                 } else {
-                    phoneDriver.postValue(it)
+                    _phoneDriver = it
+                    phoneDriver.postValue(true)
                 }
 
             }, {
@@ -59,7 +62,8 @@ class InfoPhoneViewModel(
     private fun errorResponse(it: State, phone: String) {
         handleState(it)
         if (it != State.Loaded && it != State.Loading) {
-            phoneDriver.postValue(phone)
+            _phone = phone
+            phoneDriver.postValue(false)
         }
     }
 }

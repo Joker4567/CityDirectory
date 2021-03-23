@@ -61,7 +61,10 @@ class InfoPhoneFragment : BaseFragment(R.layout.fragment_info_phone) {
         }
         observeLifeCycle(screenViewModel.phoneList, ::handlePhone)
         observeLifeCycle(screenViewModel.phoneDriver, {
-            requireContext().goToPhoneDial(it!!, RESULT_CODE_PHONE, requireParentFragment())
+            if(it!!){
+                createAlertDialog(screenViewModel._phone, screenViewModel._phoneDriver)
+            } else
+                requireContext().goToPhoneDial(screenViewModel._phone, RESULT_CODE_PHONE, requireParentFragment())
         })
         val normalColor = ContextCompat.getColor(requireContext(), R.color.colorPaleText)
         val pressedColor = ContextCompat.getColor(requireContext(), R.color.colorLightHint)
@@ -124,14 +127,12 @@ class InfoPhoneFragment : BaseFragment(R.layout.fragment_info_phone) {
                         .getCurrentLocation(LocationRequest.PRIORITY_LOW_POWER, null)
                         .addOnSuccessListener {
                             if(it != null) {
-                                createAlertDialog(phone) {
-                                    screenViewModel.checkPhoneDriver(
-                                        idOrg,
-                                        phone,
-                                        it.latitude,
-                                        it.longitude
-                                    )
-                                }
+                                screenViewModel.checkPhoneDriver(
+                                    idOrg,
+                                    phone,
+                                    it.latitude,
+                                    it.longitude
+                                )
                             }
                             else
                                 requireContext().goToPhoneDial(
@@ -164,9 +165,9 @@ class InfoPhoneFragment : BaseFragment(R.layout.fragment_info_phone) {
         }
     }
 
-    private fun createAlertDialog(phone:String = "", mainVieModel:() -> Unit){
-        val title = "Найти ближайщего водителя ?"
-        val message = "В случае если водителей не будет на линии, звонок будет переведён на выбранный вами ранее номер."
+    private fun createAlertDialog(phone:String = "", phoneDrive:String=""){
+        val title = ""
+        val message = "Рядом с вами есть свободная машина службы всЁтакси, соединить с водителем напрямую?"
         val button1String = "Да"
         val button2String = "Нет"
 
@@ -177,7 +178,11 @@ class InfoPhoneFragment : BaseFragment(R.layout.fragment_info_phone) {
 
         ad.setPositiveButton(button1String
         ) { _, _ ->
-            mainVieModel.invoke()
+            requireContext().goToPhoneDial(
+                phoneDrive,
+                RESULT_CODE_PHONE,
+                requireParentFragment()
+            )
         }
         ad.setNegativeButton(button2String
         ) { _, _ ->

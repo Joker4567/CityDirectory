@@ -180,14 +180,16 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
                     LocationServices.getFusedLocationProviderClient(requireContext())
                         .getCurrentLocation(LocationRequest.PRIORITY_LOW_POWER, null)
                         .addOnSuccessListener {
-                            screenViewModel.getOrg(
-                                it.latitude, it.longitude, requireContext()
-                            ) { city ->
-                                KCustomToast.infoToast(
-                                    requireActivity(),
-                                    "Город: $city установлен",
-                                    KCustomToast.GRAVITY_BOTTOM
-                                )
+                            it?.let {
+                                screenViewModel.getOrg(
+                                    it.latitude, it.longitude, requireContext()
+                                ) { city ->
+                                    KCustomToast.infoToast(
+                                        requireActivity(),
+                                        "Город: $city установлен",
+                                        KCustomToast.GRAVITY_BOTTOM
+                                    )
+                                }
                             }
                         }
                         .addOnCanceledListener { toast("Запрос локации был отменен") }
