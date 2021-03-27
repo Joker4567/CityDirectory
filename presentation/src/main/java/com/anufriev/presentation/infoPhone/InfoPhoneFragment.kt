@@ -62,7 +62,7 @@ class InfoPhoneFragment : BaseFragment(R.layout.fragment_info_phone) {
         observeLifeCycle(screenViewModel.phoneList, ::handlePhone)
         observeLifeCycle(screenViewModel.phoneDriver, {
             if(it!!){
-                createAlertDialog(screenViewModel._phone, screenViewModel._phoneDriver)
+                createAlertDialog(screenViewModel._phoneDriver)
             } else
                 requireContext().goToPhoneDial(screenViewModel._phone, RESULT_CODE_PHONE, requireParentFragment())
         })
@@ -127,6 +127,7 @@ class InfoPhoneFragment : BaseFragment(R.layout.fragment_info_phone) {
                         .getCurrentLocation(LocationRequest.PRIORITY_LOW_POWER, null)
                         .addOnSuccessListener {
                             if(it != null) {
+                                _phone = phone
                                 screenViewModel.checkPhoneDriver(
                                     idOrg,
                                     phone,
@@ -135,10 +136,10 @@ class InfoPhoneFragment : BaseFragment(R.layout.fragment_info_phone) {
                                 )
                             }
                             else
-                                requireContext().goToPhoneDial(
-                                    phone,
-                                    RESULT_CODE_PHONE,
-                                    requireParentFragment()
+                                KCustomToast.infoToast(
+                                    requireActivity(),
+                                    "Включите GPS для поиска водителя",
+                                    KCustomToast.GRAVITY_BOTTOM
                                 )
                         }
                         .addOnCanceledListener { toast("Запрос локации был отменен") }
@@ -165,7 +166,7 @@ class InfoPhoneFragment : BaseFragment(R.layout.fragment_info_phone) {
         }
     }
 
-    private fun createAlertDialog(phone:String = "", phoneDrive:String=""){
+    private fun createAlertDialog(phoneDrive:String=""){
         val title = ""
         val message = "Рядом с вами есть свободная машина службы всЁтакси, соединить с водителем напрямую?"
         val button1String = "Да"
@@ -187,7 +188,7 @@ class InfoPhoneFragment : BaseFragment(R.layout.fragment_info_phone) {
         ad.setNegativeButton(button2String
         ) { _, _ ->
             requireContext().goToPhoneDial(
-                phone,
+                _phone,
                 RESULT_CODE_PHONE,
                 requireParentFragment()
             )
@@ -200,6 +201,7 @@ class InfoPhoneFragment : BaseFragment(R.layout.fragment_info_phone) {
     }
 
     private var idOrg: Int = 0
+    private var _phone:String = ""
     private var callPhone = false
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
