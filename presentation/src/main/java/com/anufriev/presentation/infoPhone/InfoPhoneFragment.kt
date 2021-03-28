@@ -152,7 +152,6 @@ class InfoPhoneFragment : BaseFragment(R.layout.fragment_info_phone) {
                     "Включите GPS для поиска водителя",
                     KCustomToast.GRAVITY_BOTTOM
                 )
-                requireContext().goToPhoneDial(phone, RESULT_CODE_PHONE, requireParentFragment())
             }
         } else {
             requestPermissions(
