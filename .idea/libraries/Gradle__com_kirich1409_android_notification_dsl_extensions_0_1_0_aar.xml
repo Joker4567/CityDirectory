@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="Gradle: com.kirich1409.android-notification-dsl:extensions:0.1.0@aar">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/080edb6a9c2a0b164b4ba3c93e994e29/jetified-extensions-0.1.0/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/32c6ef9988dda5468ccf3a532b2e250a/transformed/jetified-extensions-0.1.0/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/32c6ef9988dda5468ccf3a532b2e250a/transformed/jetified-extensions-0.1.0/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/32c6ef9988dda5468ccf3a532b2e250a/transformed/jetified-extensions-0.1.0/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.kirich1409.android-notification-dsl/extensions/0.1.0/1a2fe8d36648d36d5cd35efa5335a945aae4f1e4/extensions-0.1.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

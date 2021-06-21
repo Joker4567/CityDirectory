@@ -3,9 +3,10 @@
     <CLASSES>
       <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/066ecf4e46195bf17e663aaa574ffae4/jetified-adapterdelegates4-kotlin-dsl-4.3.0/res" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/0986c4e4c6a694088473ebf32e73cb60/jetified-adapterdelegates4-kotlin-dsl-4.3.0/res" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/d9b1c1de697a3312ae9647281a7920e4/jetified-adapterdelegates4-kotlin-dsl-4.3.0/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/d9b1c1de697a3312ae9647281a7920e4/jetified-adapterdelegates4-kotlin-dsl-4.3.0/AndroidManifest.xml" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/d9b1c1de697a3312ae9647281a7920e4/jetified-adapterdelegates4-kotlin-dsl-4.3.0/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/b525a8909bdb6e918d9b5bf333b7f06f/transformed/jetified-adapterdelegates4-kotlin-dsl-4.3.0/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/b525a8909bdb6e918d9b5bf333b7f06f/transformed/jetified-adapterdelegates4-kotlin-dsl-4.3.0/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/b525a8909bdb6e918d9b5bf333b7f06f/transformed/jetified-adapterdelegates4-kotlin-dsl-4.3.0/res" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.hannesdorfmann/adapterdelegates4-kotlin-dsl/4.3.0/51add9b2ad71c8c662167bedf6d0fcbdaac74337/adapterdelegates4-kotlin-dsl-4.3.0-javadoc.jar!/" />
