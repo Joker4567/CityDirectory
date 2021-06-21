@@ -22,11 +22,13 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         mInstance = FirebaseCrashlytics.getInstance()
-        FirebaseService.sharedPref = getSharedPreferences("sharedPref", Context.MODE_PRIVATE)
+
+        FirebaseService._sharedPref = getSharedPreferences("sharedPref", Context.MODE_PRIVATE)
         FirebaseInstanceId.getInstance().instanceId.addOnSuccessListener {
             FirebaseService.token = it.token
         }
         FirebaseMessaging.getInstance().subscribeToTopic(TOPIC)
+
         try {
             Thread
                 .setDefaultUncaughtExceptionHandler { thread: Thread, throwable: Throwable ->

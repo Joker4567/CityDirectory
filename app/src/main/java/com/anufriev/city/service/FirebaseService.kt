@@ -1,5 +1,6 @@
 package com.anufriev.city.service
 
+import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.NotificationManager.IMPORTANCE_HIGH
@@ -16,21 +17,23 @@ import com.anufriev.city.R
 import com.anufriev.presentation.MainActivity
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import com.kirich1409.androidnotificationdsl.notification
 import kotlin.random.Random
-
-private const val CHANNEL_ID = "my_channel"
 
 class FirebaseService : FirebaseMessagingService() {
 
     companion object {
-        var sharedPref: SharedPreferences? = null
+        var _sharedPref: SharedPreferences? = null
+        val sharedPref: SharedPreferences = checkNotNull(_sharedPref) { "Not initialize sharedPref" }
+
+        const val CHANNEL_ID = "chat_id"
 
         var token: String?
             get() {
-                return sharedPref?.getString("token", "")
+                return sharedPref.getString("token", "")
             }
             set(value) {
-                sharedPref?.edit()?.putString("token", value)?.apply()
+                _sharedPref?.edit()?.putString("token", value)?.apply()
             }
     }
 
@@ -52,22 +55,23 @@ class FirebaseService : FirebaseMessagingService() {
 
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         val pendingIntent = PendingIntent.getActivity(this, 0, intent, FLAG_ONE_SHOT)
-        val notification = NotificationCompat.Builder(this, CHANNEL_ID)
-            .setContentTitle(message.data["title"])
-            .setContentText(message.data["message"])
-            .setSmallIcon(R.drawable.ic_baseline_info_24)
-            .setAutoCancel(true)
-            .setContentIntent(pendingIntent)
-            .build()
 
-        notificationManager.notify(notificationID, notification)
+        val notification = notification(this, CHANNEL_ID, smallIcon = R.drawable.ic_baseline_info_24) {
+            contentTitle(message.data["title"] ?: "")
+            contentText(message.data["message"] ?: "")
+            autoCancel(true)
+            contentIntent(pendingIntent)
+            priority(NotificationCompat.PRIORITY_DEFAULT)
+        }
+
+        notificationManager.notify(notificationID, notification as Notification)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun createNotificationChannel(notificationManager: NotificationManager) {
-        val channelName = "channelName"
+        val channelName = "chat"
         val channel = NotificationChannel(CHANNEL_ID, channelName, IMPORTANCE_HIGH).apply {
-            description = "My channel description"
+            description = "chat message"
             enableLights(true)
             lightColor = Color.GREEN
         }
